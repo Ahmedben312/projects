@@ -1,0 +1,423 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+@font-face {
+  font-family: Inconsolata;
+  src: url(https://fonts.google.com/specimen/Inconsolata);
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("./assets/images/background-desktop.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  font-family: Inconsolata, sans-serif;
+}
+body::before {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(./assets/images/pattern-lines.svg),
+    url(./assets/images/pattern-circle.svg),
+    url(./assets/images/pattern-circle.svg),
+    url(./assets/images/pattern-squiggly-line-top.svg),
+    url(./assets/images/pattern-squiggly-line-bottom.svg);
+  background-repeat: no-repeat;
+  background-position: center, 58px -80px, 60vw 450px, 75vw 60px, 0px 50vh;
+  z-index: -5;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 60vw;
+  max-width: 500px;
+  min-width: 300px;
+  height: auto;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+#first-logo {
+  width: 200px;
+  height: 200px;
+  margin-top: -120px;
+}
+.title {
+  text-align: center;
+  font-size: 3rem;
+  width: 700px;
+  margin-top: -40px;
+  color: hsl(0, 0%, 100%);
+}
+.para {
+  font-size: 1.5rem;
+  font-weight: 400;
+  opacity: 0.8;
+  color: hsl(245, 15%, 58%);
+  width: 800px;
+  text-align: center;
+  margin-top: 10px;
+}
+fieldset {
+  padding: 20px;
+  margin: auto auto;
+  height: 500px;
+  border: none;
+}
+label {
+  position: relative;
+  display: block;
+  color: hsl(245, 15%, 58%);
+  font-weight: 400;
+  margin: 10px 10px 10px 10px;
+}
+label::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: -5px;
+  opacity: 0.2;
+  width: 400px;
+  height: 50px;
+  background-color: hsla(246, 15%, 58%, 0.555);
+  border-radius: 10px;
+  z-index: -1;
+}
+label:first-of-type::before {
+  content: none;
+}
+input {
+  position: relative;
+  display: block;
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid hsl(245, 19%, 35%);
+  background-color: hsla(246, 15%, 58%, 0.205);
+  text-indent: 10px;
+  font-size: 1rem;
+  color: hsl(246, 15%, 58%);
+  margin-top: 10px;
+  margin-left: -5px;
+  cursor: pointer;
+}
+
+input::placeholder {
+  color: white;
+  filter: brightness(5.5);
+}
+input:hover {
+  background-color: hsla(246, 15%, 58%, 0.668);
+}
+input:focus {
+  border: 5px solid hsl(252, 6%, 83%);
+  outline: none;
+}
+#upload-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 150px;
+  width: 400px;
+  margin-left: -5px;
+  border-radius: 20px;
+  border: 3px dashed hsl(245, 19%, 35%);
+}
+#upload-avatar-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 395px;
+  height: 145px;
+  background-color: hsla(246, 15%, 58%, 0.668);
+  border-radius: 19px;
+  opacity: 0.2;
+  z-index: -1;
+}
+#upload-avatar-container:hover {
+  background-color: hsla(246, 15%, 58%, 0.346);
+}
+#upload-avatar-container:focus {
+  outline: none;
+  border: 5px solid hsl(252, 6%, 83%);
+}
+#upload-text {
+  font-size: 1.1rem;
+  color: hsl(245, 15%, 58%);
+}
+#upload-icon {
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  margin-top: 40px;
+  border: 0px solid hsl(245, 15%, 58%);
+  border-radius: 10px;
+  background-color: hsl(245, 19%, 35%);
+  display: inline-block;
+  box-sizing: border-box;
+}
+#info-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 20px;
+  opacity: 0.5;
+}
+#upload-span {
+  font-size: 0.75rem;
+  margin: 20px;
+  color: hsl(252, 6%, 83%);
+  opacity: 0.5;
+  margin-left: 0px;
+  filter: brightness(2.5);
+}
+#upload-icon,
+#upload-text {
+  z-index: 1;
+}
+
+#file-input {
+  opacity: 0;
+}
+#generate-btn {
+  display: block;
+  align-self: center;
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: hsl(7, 71%, 60%);
+  color: hsl(248, 70%, 10%);
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-top: 20px;
+  cursor: pointer;
+}
+#generate-btn:focus {
+  border: 5px solid hsl(252, 6%, 83%);
+}
+#ticket-container {
+  height: 90vh;
+  width: 90vw;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+#second-logo {
+  width: 200px;
+  height: 200px;
+  margin-top: -10px;
+}
+#ticket {
+  background-image: url(./assets/images/pattern-ticket.svg);
+  background-repeat: no-repeat;
+  height: 250%;
+  width: 600px;
+  margin-top: 150px;
+  padding: 20px;
+}
+#congrats {
+  font-size: 2rem;
+  font-weight: 800;
+  color: hsl(0, 0%, 100%);
+  margin-top: 50px;
+  text-align: center;
+}
+#full-name-span {
+  background: repeating-linear-gradient(hsl(7, 86%, 67%), hsl(0, 0%, 100%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#email-para {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: hsl(245, 15%, 58%);
+  margin-top: 30px;
+  opacity: 0.8;
+  width: 500px;
+  text-align: center;
+}
+#email-span {
+  color: hsl(7, 71%, 60%);
+}
+#logo-brand {
+  display: flex;
+  flex-direction: row;
+}
+#coding-conf {
+  display: inline;
+  margin-left: 10px;
+  color: hsl(0, 0%, 100%);
+}
+
+#date {
+  display: block;
+  margin: 5px 40px;
+  color: hsl(245, 15%, 58%);
+}
+#avatar-container {
+  margin-top: 80px;
+  gap: 20px;
+}
+#avatar {
+  display: inline;
+  height: 100px;
+  width: 100px;
+  float: left;
+}
+#name-github-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#full-name {
+  vertical-align: middle;
+  display: inline;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: hsl(0, 0%, 100%);
+  margin-left: 10px;
+  margin-top: 10px;
+}
+#github-container {
+  display: block;
+  margin-left: 0px;
+  margin-top: 20px;
+}
+#github-logo {
+  display: inline;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+#github-username {
+  display: inline;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: hsl(245, 15%, 58%);
+  vertical-align: middle;
+}
+.error {
+  min-height: 10px;
+  font-size: 0.75rem;
+  color: hsl(7, 71%, 60%);
+  margin: 5px -20px 0px 30px;
+}
+.error-icon {
+  display: block;
+  margin: -15px 0px -5px 10px;
+  position: absolute;
+}
+#ticket-number {
+  position: absolute;
+  font-size: 1.3rem;
+  color: hsl(245, 15%, 58%);
+  top: 60%;
+  left: 72%;
+  transform: rotate(90deg);
+}
+#preview {
+  text-align: center;
+  height: 200px;
+  width: 400px;
+  margin-top: -25px;
+}
+#preview-avatar {
+  display: block;
+  height: 50px;
+  width: 50px;
+  margin: 10px auto;
+  border-radius: 10px;
+  font-size: 0px;
+}
+.preview-btn {
+  display: inline-block;
+  width: 100px;
+  height: 40px;
+  margin: 0px auto;
+  font-size: 0.75rem;
+  color: hsl(252, 6%, 83%);
+  background-color: hsl(245, 19%, 35%);
+  border: none;
+  border-radius: 10px;
+}
+#remove-btn {
+  text-decoration: underline;
+}
+@media (max-width: 768px) {
+  body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  #first-logo {
+    width: 100px;
+    height: 100px;
+  }
+  .title {
+    font-size: 1.5rem;
+    width: 250px;
+  }
+  .para {
+    font-size: 1rem;
+    width: 200px;
+  }
+  form {
+    display: none;
+    height: 80%;
+    width: 90%;
+  }
+  label {
+    font-size: 1rem;
+  }
+  label::before {
+    width: 400px;
+  }
+  #generate-btn {
+    width: 400px;
+    height: 50px;
+  }
+  .error {
+    font-size: 0.75rem;
+    margin-bottom: -5px;
+  }
+  #ticket-container {
+    display: flex;
+    width: 80%;
+    height: 80%;
+  }
+  #second-log {
+    height: 150px;
+    width: 150px;
+  }
+  #congrats {
+    font-size: 2.5rem;
+    width: 400px;
+  }
+  #email-para {
+    font-size: 1.8rem;
+  }
+}

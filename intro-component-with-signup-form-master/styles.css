@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100vh;
+  width: 100vw;
+  background-image: url(./images/bg-intro-desktop.png);
+  background-color: hsl(0, 100%, 74%);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px;
+}
+#h1-p-grp {
+  border: none;
+  width: 400px;
+  height: 200px;
+}
+#title {
+  color: hsl(0, 0%, 100%);
+  font-size: 2.1rem;
+  margin-bottom: 10px;
+}
+#discription {
+  color: hsl(0, 0%, 100%);
+  font-size: 0.75em;
+}
+#form {
+  border: none;
+  max-width: 350px;
+  max-height: 550px;
+}
+#free-trial {
+  height: 40px;
+  width: 350px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.6rem;
+  background-color: hsl(248, 32%, 49%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: 0px 10px 10px 1px hsla(0, 1%, 17%, 0.816);
+}
+#registration-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  padding: 20px;
+  background-color: hsl(0, 0%, 100%);
+  max-width: 350px;
+  max-height: 450px;
+  border-radius: 10px;
+}
+input {
+  height: 45px;
+  border-radius: 10px;
+  border: 0.5px solid black;
+  text-indent: 10px;
+}
+input:focus {
+  outline: none;
+}
+#claim {
+  height: 40px;
+  background-color: hsl(154, 59%, 51%);
+  border: none;
+  border-radius: 10px;
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+}
+#claim:hover {
+  background-color: hsla(154, 59%, 51%, 0.639);
+}
+h6 {
+  font-size: 0.65em;
+  color: hsl(246, 25%, 77%);
+}
+span {
+  color: hsl(0, 100%, 74%);
+}
+.error-message {
+  color: red;
+  font-size: 0.5rem;
+  margin-top: -20px;
+  margin-bottom: -20px;
+  text-align: right;
+}
+.error-mark {
+  height: 20px;
+  width: 20px;
+  margin-top: -68px;
+  margin-left: 280px;
+}

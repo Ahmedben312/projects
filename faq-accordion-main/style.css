@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: "WorkSans";
+  src: url(./assets/fonts/WorkSans-VariableFont_wght.ttf);
+}
+body {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: hsl(275, 100%, 97%);
+  background-image: url(./assets/images/background-pattern-desktop.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-family: "WorkSans", sans-serif;
+}
+#container {
+  height: 350px;
+  max-width: 550px;
+  background-color: hsl(0, 0%, 100%);
+  padding: 40px 35px;
+  margin: auto;
+  border-radius: 15px;
+}
+#star-title-grp {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#star {
+  margin-bottom: 30px;
+  margin-right: 10px;
+  height: 35px;
+  width: 35px;
+}
+#title {
+  text-align: left;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  color: hsl(292, 42%, 14%);
+}
+.h3-star-grp {
+  display: flex;
+  margin-bottom: 15px;
+}
+.h3-p-grp {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.h3-p-grp:hover {
+  color: hsla(276, 88%, 69%, 0.899);
+}
+.plus {
+  width: 20px;
+}
+.para-title {
+  width: 100%;
+  font-size: 1em;
+}
+.dropdown {
+  display: none;
+  height: 50px;
+  margin-top: -10px;
+}
+.paragraph {
+  font-size: 0.75em;
+  color: hsl(292, 16%, 49%);
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 85%;
+    background-size: contain;
+  }
+  #title {
+    font-size: 2.8rem;
+  }
+  #star {
+    height: 2.8rem;
+  }
+  #container {
+    width: 80%;
+  }
+  .dropdown {
+    margin-top: -10px;
+  }
+}
+@media screen and (max-width: 468px) {
+  body {
+    font-size: 75%;
+    background-image: url(./assets/images/background-pattern-mobile.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  #title {
+    font-size: 2.5rem;
+  }
+  #star {
+    height: 2.5rem;
+  }
+  #container {
+    width: 80%;
+    height: 90%;
+  }
+  .dropdown {
+    margin-top: -10px;
+  }
+}

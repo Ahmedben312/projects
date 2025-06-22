@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
-    <link rel="stylesheet" href="./style.css" />
 
     <link
       rel="icon"
@@ -12,6 +11,7 @@
       sizes="32x32"
       href="./assets/images/favicon-32x32.png"
     />
+    <link rel="stylesheet" href="./styles.css" />
 
     <title>Frontend Mentor | Contact form</title>
 
@@ -27,63 +27,84 @@
     </style>
   </head>
   <body>
-    <form class="contact">
-      <h1>Contact Us</h1>
-      <div class="name">
-        <div class="first">
-          <label for="First-Name">First Name</label>
-          <input type="text" id="First-Name" />
-          <p>This field is required</p>
+    <form action="#">
+      <h2 id="contact">Contact Us</h2>
+      <fieldset id="name">
+        <label for="first-name">
+          <p>First Name</p>
+          <input type="text" id="first-name" required />
+          <span class="error-text">field is required</span>
+        </label>
+        <label for="last-name">
+          <p>Last Name</p>
+          <input type="text" id="last-name" required />
+          <span class="error-text">This field is required</span>
+        </label>
+      </fieldset>
+      <fieldset id="email">
+        <label for="email-address">
+          <p>Email Address</p>
+          <input type="email" id="email-address" required />
+          <span id="valid-email">Please enter a valid email address</span>
+          <span class="error-text">This field is required</span>
+        </label>
+      </fieldset>
+      <fieldset id="query">
+        <p id="query-type">Query Type</p>
+        <div id="query-options">
+          <label for="general-enquiry">
+            <input
+              type="radio"
+              id="general-enquiry"
+              name="query-type"
+              required
+            />
+            <p>General Enquiry</p>
+          </label>
+          <label for="support-request">
+            <input
+              type="radio"
+              id="support-request"
+              name="query-type"
+              required
+            />
+            <p>Support Request</p>
+          </label>
         </div>
-        <div class="last">
-          <label for="Last-Name">Last Name</label>
-          <input type="text" id="Last-Name" />
-          <p>This field is required</p>
+        <span class="error-text">Please select a query type</span>
+      </fieldset>
+      <fieldset>
+        <label for="message">
+          <p>Message</p>
+          <textarea id="message" cols="58" rows="8"></textarea>
+          <span class="error-text">This field is required</span>
+        </label>
+      </fieldset>
+      <fieldset>
+        <div>
+        <label for="consent">
+          <input type="checkbox" id="consent" required />
+          <p>I consent to being contacted by the team</p>
         </div>
-      </div>
-      <div class="email">
-        <label for="Email-Address">Email Address</label>
-        <input type="email" id="Email-Address" />
-        <p>Please enter a valid email address</p>
-      </div>
-
-      <div class="query-type">
-        <span>Query Type</span>
-        <div class="span-label-input-group">
-          <div class="label-input-a">
-            <input type="radio" class="radio-button" id="General-Enquiry" />
-            <label for="General-Enquiry">General Enquiry</label>
-          </div>
-          <div class="label-input-b">
-            <input type="radio" class="radio-button" id="Support-Request" />
-            <label for="Support-Request">Support Request</label>
-          </div>
-        </div>
-        <p>Please select a query type</p>
-      </div>
-
-      <div class="message-text">
-        <label for="Message" class="message-input">Message</label>
-        <textarea type="text" id="Message"></textarea>
-        <p>This field is required</p>
-      </div>
-      <div class="submit-checkbox-p">
-        <div class="submit-checkbox">
-          <input type="checkbox" class="checkbox" />
-          <label for="checkbox" class="consent"
-            >I consent to being contacted by the team</label
-          >
-        </div>
-        <p>To submit this form, please consent to being contacted</p>
-      </div>
-
-      <button class="submit">Submit</button>
-      <div class="success">
-        <img src="./assets/images/icon-success-check.svg" alt="" srcset="" />
-        <h3>Message Sent!</h3>
-        <h4>Thanks for completing the form. We'll be in touch soon!</h4>
-      </div>
+          
+        </label
+        ><span class="error-text">
+            To submit this form, please consent to being contacted
+          </span>
+      </fieldset>
+      <button id="submit-btn">Submit</button>
     </form>
+    <div id="success-container">
+      <img
+        src="./assets/images/icon-success-check.svg"
+        id="success-logo"
+        alt="success-logo"
+      />
+      <h2 id="message-sent">Message Sent!</h2>
+      <p id="thanks-message">
+        Thanks for completing the form. We'll be in touch soon!
+      </p>
+    </div>
     <div class="attribution" style="display: none">
       Challenge by
       <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
