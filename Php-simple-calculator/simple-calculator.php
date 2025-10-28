@@ -25,7 +25,7 @@
         $result = 0;
 
         switch($operation) {
-            case 'add':
+            case 'add': 
                 $result = $num1 + $num2;
                 break;
             case 'subtract':
