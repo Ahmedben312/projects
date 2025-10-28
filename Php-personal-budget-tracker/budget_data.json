@@ -1,0 +1,20 @@
+{
+    "transactions": [
+        {
+            "id": "6900978c91392",
+            "type": "income",
+            "category": "salary",
+            "amount": 20000,
+            "description": "",
+            "date": "2025-10-28"
+        },
+        {
+            "id": "6900979f7309a",
+            "type": "expense",
+            "category": "rent",
+            "amount": 5000,
+            "description": "",
+            "date": "2025-10-28"
+        }
+    ]
+}
