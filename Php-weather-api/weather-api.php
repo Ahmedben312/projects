@@ -4,7 +4,7 @@ $error = null;
 
 if(isset($_POST['get_weather'])) {
     $city = urlencode($_POST['city']);
-    $api_key = "your_api_key_here"; // Get free API key from OpenWeatherMap
+    $api_key = "a5a3b52362171c7eb93a677600bd0bf1"; // Get free API key from OpenWeatherMap
     $url = "https://api.openweathermap.org/data/2.5/weather?q={$city}&appid={$api_key}&units=metric";
     
     $response = @file_get_contents($url);
