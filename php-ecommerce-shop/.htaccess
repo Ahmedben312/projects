@@ -1,0 +1,24 @@
+# Prevent directory listing
+Options -Indexes
+
+# Allow access to specific files
+<Files "*.php">
+    Require all granted
+</Files>
+
+<Files "setup_database.php">
+    Require all granted
+</Files>
+
+<Files "check_database.php">
+    Require all granted
+</Files>
+
+<Files "test.php">
+    Require all granted
+</Files>
+
+# Redirect root to public directory
+RewriteEngine On
+RewriteRule ^$ public/ [L]
+RewriteRule (.*) public/$1 [L]
