@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# API routing
+RewriteRule ^api/(.*)$ api/index.php [QSA,L]
+
+# Pretty URLs for properties
+RewriteRule ^property/([0-9]+)/?$ property-detail.php?id=$1 [QSA,L]
+
+# Security - prevent direct access to sensitive files
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(actions|cache|classes|config|database|includes|models|uploads|utils)/ - [F,L]
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
