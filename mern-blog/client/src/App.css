@@ -1,0 +1,26 @@
+.App {
+  text-align: center;
+}
+
+.ql-editor {
+  min-height: 300px;
+}
+
+.post-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.comment-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.like-button {
+  transition: all 0.3s ease;
+}
+
+.like-button:hover {
+  transform: scale(1.1);
+}
