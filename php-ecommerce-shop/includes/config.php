@@ -17,6 +17,7 @@ define('DB_NAME', 'ecommerce_shop');
 define('SITE_URL', 'http://localhost/php-ecommerce-shop');
 define('SITE_NAME', 'ShopHub');
 define('ASSETS_PATH', SITE_URL . '/public/assets');
+define('FROM_EMAIL', 'no-reply@shophub.com');
 
 // Database connection
 try {
