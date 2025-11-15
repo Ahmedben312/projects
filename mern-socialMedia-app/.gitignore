@@ -1,0 +1,66 @@
+# Dependencies - CRITICAL to exclude [citation:6][citation:7]
+node_modules/
+*/node_modules/
+client/node_modules/
+server/node_modules/
+jspm_packages/
+
+# Production builds [citation:8]
+/client/build
+/build
+/dist
+/out
+
+# Environment variables - SECURITY [citation:4]
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.development
+.env.production
+
+# Logs [citation:2][citation:4]
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data [citation:2]
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+.nyc_output
+
+# Cache [citation:2]
+.npm
+.eslintcache
+.yarn-integrity
+.node_repl_history
+
+# OS generated files [citation:2]
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and editor files [citation:2]
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Optional files
+*.tgz
+*.tar.gz

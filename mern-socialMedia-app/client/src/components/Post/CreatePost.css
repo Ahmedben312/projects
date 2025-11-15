@@ -1,0 +1,131 @@
+.create-post-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.create-post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.create-post-header .user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.audience-select {
+  padding: 6px 12px;
+  border: 1px solid #dddfe2;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  color: #65676b;
+}
+
+.post-textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 16px;
+  font-family: inherit;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.post-textarea:focus {
+  outline: none;
+}
+
+.media-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.media-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.media-item img,
+.media-item video {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f0f2f5;
+  border-radius: 8px;
+  border: 1px solid #dddfe2;
+}
+
+.remove-media-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.create-post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #e4e6eb;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #65676b;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: #f0f2f5;
+}
+
+.post-submit-btn {
+  padding: 8px 24px;
+  font-weight: 600;
+}
+
+.post-submit-btn:disabled {
+  background-color: #e4e6eb;
+  color: #bcc0c4;
+  cursor: not-allowed;
+}
