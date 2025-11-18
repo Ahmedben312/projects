@@ -1,0 +1,76 @@
+// Media Queries
+@mixin breakpoint($size) {
+  @if $size == small {
+    @media (max-width: 576px) {
+      @content;
+    }
+  } @else if $size == medium {
+    @media (max-width: 768px) {
+      @content;
+    }
+  } @else if $size == large {
+    @media (max-width: 992px) {
+      @content;
+    }
+  } @else if $size == xlarge {
+    @media (max-width: 1200px) {
+      @content;
+    }
+  }
+}
+
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Button Styles
+@mixin button-style($color) {
+  background-color: $color;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($color, 10%);
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+}
+
+// Form Input Styles - USING HARDCODED VALUES TO AVOID VARIABLE ISSUES
+@mixin form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e9ecef; // Hardcoded instead of $medium-gray
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #ff6b35; // Hardcoded instead of $primary-color
+    box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2); // Hardcoded
+  }
+
+  &.is-invalid {
+    border-color: #e74c3c; // Hardcoded instead of $error-color
+  }
+}

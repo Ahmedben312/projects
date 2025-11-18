@@ -1,0 +1,74 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: food_delivery_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: fooddelivery
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - food-delivery-network
+
+  backend:
+    build: ./backend
+    container_name: food_delivery_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/fooddelivery?authSource=admin
+      JWT_SECRET: your_jwt_secret_here_change_in_production
+      JWT_EXPIRE: 30d
+      GOOGLE_MAPS_API_KEY: your_google_maps_api_key_here
+      STRIPE_SECRET_KEY: your_stripe_secret_key_here
+      STRIPE_WEBHOOK_SECRET: your_stripe_webhook_secret_here
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+    networks:
+      - food-delivery-network
+
+  frontend:
+    build: ./frontend
+    container_name: food_delivery_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      REACT_APP_API_URL: http://localhost:5000/api
+      REACT_APP_GOOGLE_MAPS_API_KEY: your_google_maps_api_key_here
+      REACT_APP_STRIPE_PUBLISHABLE_KEY: your_stripe_publishable_key_here
+    depends_on:
+      - backend
+    networks:
+      - food-delivery-network
+
+  driver-simulator:
+    build: ./driver-simulator
+    container_name: food_delivery_simulator
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/fooddelivery?authSource=admin
+      SIMULATION_SPEED: 1.0
+    depends_on:
+      - mongodb
+    networks:
+      - food-delivery-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  food-delivery-network:
+    driver: bridge

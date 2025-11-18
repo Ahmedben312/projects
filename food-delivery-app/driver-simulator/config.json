@@ -1,0 +1,34 @@
+{
+  "mongo": {
+    "uri": "mongodb://localhost:27017/",
+    "database": "fooddelivery"
+  },
+  "simulation": {
+    "update_interval": 3,
+    "speed_factor": 1.0,
+    "movement_variance": 0.001
+  },
+  "cities": {
+    "Sfax": {
+      "center": [34.7406, 10.7603],
+      "radius": 0.02
+    },
+    "NYC": {
+      "center": [40.7128, -74.006],
+      "radius": 0.02
+    }
+  },
+  "drivers": {
+    "count_per_city": 15,
+    "speed_range": [5, 35],
+    "status_probability": {
+      "available": 0.7,
+      "assigned": 0.2,
+      "busy": 0.1
+    }
+  },
+  "orders": {
+    "check_interval": 5,
+    "max_assign_distance": 5
+  }
+}
