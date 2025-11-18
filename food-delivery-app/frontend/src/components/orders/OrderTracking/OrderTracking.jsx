@@ -1,172 +1,243 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSocket } from "../../../contexts/SocketContext";
 import { orderService } from "../../../services/orderService";
 import MapComponent from "../../common/Map/MapComponent";
-import "./OrderTracking.scss";
+import "./OrderTracking.css";
 
 const OrderTracking = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
-  const [driverLocation, setDriverLocation] = useState(null);
-  const { socket, isConnected } = useSocket();
-
-  const statusSteps = [
-    { key: "PENDING", label: "Order Placed" },
-    { key: "CONFIRMED", label: "Order Confirmed" },
-    { key: "PREPARING", label: "Preparing Food" },
-    { key: "READY_FOR_PICKUP", label: "Ready for Pickup" },
-    { key: "PICKED_UP", label: "Picked Up" },
-    { key: "ON_THE_WAY", label: "On the Way" },
-    { key: "DELIVERED", label: "Delivered" },
-  ];
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!socket || !orderId) return;
+    loadOrder();
 
-    // Join order room for real-time updates (emit both common event names for compatibility)
-    socket.emit("order_join", orderId);
-    socket.emit("join_order_room", orderId);
+    // Set up polling for real-time updates
+    const interval = setInterval(loadOrder, 10000); // Poll every 10 seconds
 
-    // Listen for order updates
-    socket.on("order_updated", (updatedOrder) => {
-      setOrder(updatedOrder);
-    });
-
-    // Listen for driver location updates. Payload may be { driverId, location } or direct { latitude, longitude }
-    socket.on("driver_location_updated", (payload) => {
-      const loc = payload?.location || payload;
-      if (!loc) return;
-      const lat = loc.latitude ?? loc.lat;
-      const lng = loc.longitude ?? loc.lng;
-      if (lat != null && lng != null) {
-        setDriverLocation({ lat, lng });
-      }
-    });
-
-    return () => {
-      socket.off("order_updated");
-      socket.off("driver_location_updated");
-    };
-  }, [socket, orderId]);
-
-  useEffect(() => {
-    // Fetch initial order data (use orderService which may use mocks)
-    const fetchOrder = async () => {
-      try {
-        const res = await orderService.getOrder(orderId);
-        if (res && res.success) setOrder(res.data);
-      } catch (error) {
-        console.error("Error fetching order:", error);
-      }
-    };
-
-    fetchOrder();
+    return () => clearInterval(interval);
   }, [orderId]);
 
-  if (!order) {
-    return <div className="loading">Loading order details...</div>;
+  const loadOrder = async () => {
+    try {
+      const response = await orderService.getOrderById(orderId);
+      setOrder(response.data);
+      setError(null);
+    } catch (err) {
+      setError("Order not found");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getStatusSteps = () => {
+    const steps = [
+      {
+        status: "pending",
+        label: "Order Placed",
+        description: "Your order has been received",
+      },
+      {
+        status: "confirmed",
+        label: "Order Confirmed",
+        description: "Restaurant has confirmed your order",
+      },
+      {
+        status: "preparing",
+        label: "Preparing Food",
+        description: "Chef is preparing your meal",
+      },
+      {
+        status: "on-the-way",
+        label: "On the Way",
+        description: "Driver is delivering your order",
+      },
+      {
+        status: "delivered",
+        label: "Delivered",
+        description: "Order has been delivered",
+      },
+    ];
+
+    const currentStatusIndex = steps.findIndex(
+      (step) => step.status === order?.status
+    );
+
+    return steps.map((step, index) => ({
+      ...step,
+      completed: index <= currentStatusIndex,
+      current: index === currentStatusIndex,
+    }));
+  };
+
+  const getEstimatedTime = () => {
+    if (!order?.estimatedDelivery) return "Calculating...";
+
+    const now = new Date();
+    const deliveryTime = new Date(order.estimatedDelivery);
+    const diffMs = deliveryTime - now;
+    const diffMins = Math.round(diffMs / 60000);
+
+    if (diffMins <= 0) return "Any moment now";
+    return `${diffMins} minutes`;
+  };
+
+  if (loading) {
+    return (
+      <div className="order-tracking">
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading order details...</p>
+        </div>
+      </div>
+    );
   }
 
-  const currentStatusIndex = statusSteps.findIndex(
-    (step) => step.key === order.status
-  );
+  if (error || !order) {
+    return (
+      <div className="order-tracking">
+        <div className="error-state">
+          <div className="error-icon">❌</div>
+          <h2>Order Not Found</h2>
+          <p>{error || "The order you are looking for does not exist."}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const statusSteps = getStatusSteps();
 
   return (
     <div className="order-tracking">
-      <div className="grid-container">
-        <div className="grid-x grid-margin-x">
-          <div className="cell medium-6">
-            <div className="order-status-card">
-              <h3>Order Status</h3>
-              <div className="status-timeline">
-                {statusSteps.map((step, index) => (
-                  <div
-                    key={step.key}
-                    className={`status-step ${
-                      index <= currentStatusIndex ? "completed" : ""
-                    } ${index === currentStatusIndex ? "current" : ""}`}
-                  >
-                    <div className="step-indicator">
-                      {index <= currentStatusIndex ? "✓" : index + 1}
-                    </div>
-                    <div className="step-label">{step.label}</div>
-                    {index < statusSteps.length - 1 && (
-                      <div className="step-connector"></div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="order-details-card">
-              <h4>Order Details</h4>
-              <p>
-                <strong>Order Number:</strong> {order.orderNumber}
-              </p>
-              <p>
-                <strong>Restaurant:</strong> {order.restaurantId?.name}
-              </p>
-              <p>
-                <strong>Delivery Address:</strong>{" "}
-                {order.deliveryAddress?.street}
-              </p>
-              <p>
-                <strong>Total:</strong> ${order.totalPrice?.toFixed(2)}
-              </p>
-            </div>
+      <div className="tracking-header">
+        <h1>Track Your Order</h1>
+        <div className="order-info-banner">
+          <div className="order-id">Order #{order._id}</div>
+          <div className={`status-badge ${order.status}`}>
+            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
           </div>
+        </div>
+      </div>
 
-          <div className="cell medium-6">
-            <div className="tracking-map-card">
-              <h4>Delivery Tracking</h4>
-              <MapComponent
-                center={
-                  order.deliveryLocation?.coordinates
-                    ? {
-                        lat: order.deliveryLocation.coordinates[1],
-                        lng: order.deliveryLocation.coordinates[0],
-                      }
-                    : null
-                }
-                markers={[
-                  {
-                    position: {
-                      lat:
-                        order.restaurantId?.address?.location?.coordinates[1] ||
-                        40.7128,
-                      lng:
-                        order.restaurantId?.address?.location?.coordinates[0] ||
-                        -74.006,
-                    },
-                    title: order.restaurantId?.name,
-                    icon: "/icons/restaurant-marker.png",
-                  },
-                  ...(driverLocation
-                    ? [
-                        {
-                          position: driverLocation,
-                          title: "Your Driver",
-                          icon: "/icons/driver-marker.png",
-                        },
-                      ]
-                    : []),
-                ]}
-                height="300px"
-              />
-              {driverLocation && (
-                <div className="driver-info">
-                  <p>Driver is on the way to your location</p>
-                  <p>
-                    Estimated delivery:{" "}
-                    {order.estimatedDelivery
-                      ? new Date(order.estimatedDelivery).toLocaleTimeString()
-                      : "Calculating..."}
-                  </p>
+      <div className="tracking-content">
+        {/* Progress Timeline */}
+        <div className="progress-section">
+          <h2>Order Progress</h2>
+          <div className="timeline">
+            {statusSteps.map((step, index) => (
+              <div
+                key={step.status}
+                className={`timeline-step ${
+                  step.completed ? "completed" : ""
+                } ${step.current ? "current" : ""}`}
+              >
+                <div className="step-marker">
+                  {step.completed ? "✓" : index + 1}
                 </div>
-              )}
+                <div className="step-content">
+                  <h4>{step.label}</h4>
+                  <p>{step.description}</p>
+                  {step.current && order.updates && (
+                    <div className="current-update">
+                      <em>Latest: {order.updates[order.updates.length - 1]}</em>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Delivery Map */}
+        <div className="map-section">
+          <h2>Delivery Progress</h2>
+          <div className="tracking-map">
+            <MapComponent
+              center={
+                order.driver?.location || {
+                  latitude: 40.7128,
+                  longitude: -74.006,
+                }
+              }
+              markers={[
+                {
+                  position: order.driver?.location || {
+                    latitude: 40.7128,
+                    longitude: -74.006,
+                  },
+                  type: "driver",
+                  title: `Driver: ${order.driver?.name || "Unknown"}`,
+                },
+              ]}
+              zoom={13}
+            />
+          </div>
+
+          <div className="delivery-info">
+            <div className="info-card">
+              <h4>Estimated Arrival</h4>
+              <p className="estimated-time">{getEstimatedTime()}</p>
+            </div>
+
+            {order.driver && (
+              <div className="info-card">
+                <h4>Your Driver</h4>
+                <p>{order.driver.name}</p>
+                <p className="driver-vehicle">
+                  {order.driver.vehicle || "Car"}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Order Details */}
+        <div className="order-details-section">
+          <h2>Order Details</h2>
+          <div className="order-items-list">
+            {order.items.map((item) => (
+              <div key={item.menuItemId} className="order-item">
+                <div className="item-info">
+                  <span className="item-name">{item.name}</span>
+                  <span className="item-quantity">Qty: {item.quantity}</span>
+                </div>
+                <span className="item-price">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="order-total">
+            <strong>Total: ${order.total?.toFixed(2) || "0.00"}</strong>
+          </div>
+        </div>
+
+        {/* Updates Log */}
+        {order.updates && order.updates.length > 0 && (
+          <div className="updates-section">
+            <h2>Order Updates</h2>
+            <div className="updates-list">
+              {order.updates.map((update, index) => (
+                <div key={index} className="update-item">
+                  <div className="update-time">
+                    {new Date(order.createdAt).toLocaleTimeString()}
+                  </div>
+                  <div className="update-message">{update}</div>
+                </div>
+              ))}
             </div>
           </div>
+        )}
+      </div>
+
+      <div className="support-section">
+        <h3>Need Help?</h3>
+        <p>If you have any questions about your order, contact support:</p>
+        <div className="support-actions">
+          <button className="support-btn call-btn">📞 Call Support</button>
+          <button className="support-btn chat-btn">💬 Live Chat</button>
         </div>
       </div>
     </div>

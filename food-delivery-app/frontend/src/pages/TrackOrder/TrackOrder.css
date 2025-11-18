@@ -1,0 +1,196 @@
+.track-order {
+  padding: 2rem 0;
+  min-height: 80vh;
+}
+
+.track-order-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.order-status-card {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 2rem;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.order-info h2 {
+  color: var(--darker-gray);
+  margin-bottom: 0.5rem;
+}
+
+.order-number {
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.estimated-time {
+  background: var(--light-gray);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--global-radius);
+  text-align: center;
+}
+
+.eta-label {
+  display: block;
+  color: var(--gray);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.eta-time {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--darker-gray);
+}
+
+.status-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--light-gray);
+}
+
+.status-step {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+}
+
+.status-step:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.step-icon {
+  position: absolute;
+  left: -2rem;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+}
+
+.step-icon.completed {
+  background: var(--success-color);
+}
+
+.step-icon.active {
+  background: var(--primary-color);
+}
+
+.step-content h4 {
+  color: var(--darker-gray);
+  margin-bottom: 0.5rem;
+}
+
+.step-content p {
+  color: var(--gray);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.status-step.completed .step-content h4,
+.status-step.completed .step-content p {
+  color: var(--success-color);
+}
+
+.status-step.active .step-content h4 {
+  color: var(--primary-color);
+}
+
+.driver-info {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 2rem;
+}
+
+.driver-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.driver-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.driver-details h3 {
+  margin: 0 0 0.25rem 0;
+  color: var(--darker-gray);
+}
+
+.driver-rating {
+  color: var(--warning-color);
+  font-size: 0.9rem;
+}
+
+.driver-contact {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.contact-button {
+  background: var(--light-gray);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--global-radius);
+  cursor: pointer;
+  transition: var(--global-transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-button:hover {
+  background: var(--medium-gray);
+}
+
+.order-map {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 2rem;
+}
+
+.order-map h3 {
+  margin-bottom: 1rem;
+  color: var(--darker-gray);
+}

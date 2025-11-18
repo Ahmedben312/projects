@@ -49,9 +49,9 @@ app.use("/api/drivers", require("./routes/drivers"));
 // Error handling middleware
 app.use(require("./middleware/errorHandler"));
 
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 5001;
 
-// Bind to localhost to avoid permission issues.
-server.listen(PORT, "127.0.0.1", () => {
+// Listen without explicit host to bind to localhost and allow connections
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

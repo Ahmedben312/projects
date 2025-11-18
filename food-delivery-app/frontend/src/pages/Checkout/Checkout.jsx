@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { orderService } from "../../services/orderService";
-import "./Checkout.scss";
+import "./Checkout.css";
 
 const Checkout = () => {
   const { cartItems, restaurant, getTotal, clearCart } = useCart();

@@ -1,173 +1,119 @@
 import React, { useState, useEffect } from "react";
-import { restaurantService } from "../../../../services/restaurantService";
 import RestaurantCard from "../RestaurantCard/RestaurantCard";
-import "./RestaurantList.scss";
+import { restaurantService } from "../../../services/restaurantService";
+import "./RestaurantList.css";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     city: "",
-    cuisine: "",
-    minRating: 0,
+    cuisine: "all",
+    search: "",
   });
 
   useEffect(() => {
     loadRestaurants();
-  }, []);
-
-  useEffect(() => {
-    filterRestaurants();
-  }, [restaurants, filters]);
+  }, [filters]);
 
   const loadRestaurants = async () => {
     try {
       setLoading(true);
-      const response = await restaurantService.getRestaurants();
-      if (response.success) {
-        setRestaurants(response.data);
-      } else {
-        setError("Failed to load restaurants");
-      }
+      const response = await restaurantService.getRestaurants(filters);
+      setRestaurants(response.data);
     } catch (err) {
-      setError("Error loading restaurants");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const filterRestaurants = () => {
-    let filtered = restaurants;
-
-    if (filters.city) {
-      filtered = filtered.filter((restaurant) =>
-        restaurant.address.city
-          .toLowerCase()
-          .includes(filters.city.toLowerCase())
-      );
-    }
-
-    if (filters.cuisine) {
-      filtered = filtered.filter((restaurant) =>
-        restaurant.cuisine.toLowerCase().includes(filters.cuisine.toLowerCase())
-      );
-    }
-
-    if (filters.minRating > 0) {
-      filtered = filtered.filter(
-        (restaurant) => restaurant.rating >= filters.minRating
-      );
-    }
-
-    setFilteredRestaurants(filtered);
-  };
-
-  const handleFilterChange = (filterType, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterType]: value,
-    }));
+  const handleFilterChange = (newFilters) => {
+    setFilters((prev) => ({ ...prev, ...newFilters }));
   };
 
   if (loading) {
-    return <div className="loading">Loading restaurants...</div>;
+    return (
+      <div className="restaurant-list">
+        <div className="loading-state">
+          <div className="icon">⏳</div>
+          <p>Loading restaurants...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="error">{error}</div>;
+    return (
+      <div className="restaurant-list">
+        <div className="error-state">
+          <div className="icon">⚠️</div>
+          <p>Error: {error}</p>
+          <button onClick={loadRestaurants}>Try Again</button>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="restaurant-list-page">
-      <div className="grid-container">
-        <div className="page-header">
-          <h1>Restaurants</h1>
-          <p>Discover amazing food from local restaurants</p>
-        </div>
-
-        {/* Filters */}
-        <div className="filters-section">
-          <div className="grid-x grid-margin-x">
-            <div className="cell medium-4">
-              <div className="filter-group">
-                <label>City</label>
-                <select
-                  value={filters.city}
-                  onChange={(e) => handleFilterChange("city", e.target.value)}
-                >
-                  <option value="">All Cities</option>
-                  <option value="Sfax">Sfax</option>
-                  <option value="NYC">New York City</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="cell medium-4">
-              <div className="filter-group">
-                <label>Cuisine</label>
-                <select
-                  value={filters.cuisine}
-                  onChange={(e) =>
-                    handleFilterChange("cuisine", e.target.value)
-                  }
-                >
-                  <option value="">All Cuisines</option>
-                  <option value="Italian">Italian</option>
-                  <option value="Mexican">Mexican</option>
-                  <option value="Chinese">Chinese</option>
-                  <option value="Indian">Indian</option>
-                  <option value="American">American</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="cell medium-4">
-              <div className="filter-group">
-                <label>Minimum Rating</label>
-                <select
-                  value={filters.minRating}
-                  onChange={(e) =>
-                    handleFilterChange("minRating", parseFloat(e.target.value))
-                  }
-                >
-                  <option value={0}>Any Rating</option>
-                  <option value={4}>4+ Stars</option>
-                  <option value={3}>3+ Stars</option>
-                  <option value={2}>2+ Stars</option>
-                </select>
-              </div>
-            </div>
+    <div className="restaurant-list">
+      <div className="list-header">
+        <h1>Restaurants</h1>
+        <div className="search-sort">
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="Search restaurants..."
+              value={filters.search}
+              onChange={(e) => handleFilterChange({ search: e.target.value })}
+            />
+          </div>
+          <div className="filter-group">
+            <select
+              value={filters.city}
+              onChange={(e) => handleFilterChange({ city: e.target.value })}
+            >
+              <option value="">All Cities</option>
+              <option value="Sfax">Sfax</option>
+              <option value="New York">New York</option>
+            </select>
+          </div>
+          <div className="filter-group">
+            <select
+              value={filters.cuisine}
+              onChange={(e) => handleFilterChange({ cuisine: e.target.value })}
+            >
+              <option value="all">All Cuisines</option>
+              <option value="Italian">Italian</option>
+              <option value="Japanese">Japanese</option>
+              <option value="American">American</option>
+              <option value="Pastry">Pastry</option>
+              <option value="French">French</option>
+              <option value="Mediterranean">Mediterranean</option>
+              <option value="Moroccan">Moroccan</option>
+              <option value="Tunisian">Tunisian</option>
+              <option value="Chinese">Chinese</option>
+              <option value="Mexican">Mexican</option>
+              <option value="Vegan">Vegan</option>
+            </select>
           </div>
         </div>
-
-        {/* Results Count */}
-        <div className="results-info">
-          <p>
-            Showing {filteredRestaurants.length} of {restaurants.length}{" "}
-            restaurants
-          </p>
-        </div>
-
-        {/* Restaurant Grid */}
-        {filteredRestaurants.length === 0 ? (
-          <div className="no-results">
-            <h3>No restaurants found</h3>
-            <p>Try adjusting your filters to see more results.</p>
-          </div>
-        ) : (
-          <div className="restaurant-grid">
-            <div className="grid-x grid-margin-x grid-margin-y">
-              {filteredRestaurants.map((restaurant) => (
-                <div key={restaurant._id} className="cell medium-6 large-4">
-                  <RestaurantCard restaurant={restaurant} />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
+
+      <div className="restaurants-grid">
+        {restaurants.map((restaurant) => (
+          <RestaurantCard key={restaurant._id} restaurant={restaurant} />
+        ))}
+      </div>
+
+      {restaurants.length === 0 && (
+        <div className="empty-state">
+          <div className="icon">🍽️</div>
+          <h3>No restaurants found</h3>
+          <p>Try adjusting your filters or search term</p>
+        </div>
+      )}
     </div>
   );
 };

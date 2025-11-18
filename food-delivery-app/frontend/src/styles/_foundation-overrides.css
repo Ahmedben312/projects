@@ -1,0 +1,184 @@
+/* Foundation Framework Overrides */
+
+/* Button overrides */
+.button {
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: none;
+  transition: all 0.3s ease;
+}
+
+.button.primary {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.button.primary:hover {
+  background-color: #e55a2b;
+}
+
+.button.secondary {
+  background-color: #2c3e50;
+  color: #ffffff;
+}
+
+.button.secondary:hover {
+  background-color: #1a252f;
+}
+
+.button.success {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+.button.success:hover {
+  background-color: #219653;
+}
+
+.button.alert {
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+.button.alert:hover {
+  background-color: #e53935;
+}
+
+.button.warning {
+  background-color: #f39c12;
+  color: #212529;
+}
+
+.button.warning:hover {
+  background-color: #e08e0b;
+}
+
+.button.hollow {
+  background: transparent;
+  border: 2px solid #ff6b35;
+  color: #ff6b35;
+}
+
+.button.hollow:hover {
+  background: #ff6b35;
+  color: #ffffff;
+}
+
+/* Card overrides */
+.card {
+  border: 1px solid #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card .card-divider {
+  background: transparent;
+  border-bottom: 1px solid #f8f9fa;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.card .card-section {
+  padding: 1rem;
+}
+
+/* Grid overrides */
+.grid-container {
+  max-width: 1200px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Form overrides */
+input,
+select,
+textarea {
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+}
+
+/* Alert overrides */
+.callout {
+  border-radius: 4px;
+  border: none;
+  padding: 1rem;
+}
+
+.callout.primary {
+  background-color: rgba(255, 107, 53, 0.1);
+  color: #e55a2b;
+}
+
+.callout.success {
+  background-color: rgba(39, 174, 96, 0.1);
+  color: #219653;
+}
+
+.callout.warning {
+  background-color: rgba(243, 156, 18, 0.1);
+  color: #b3710a;
+}
+
+.callout.alert {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #e53935;
+}
+
+/* Menu overrides */
+.menu {
+  background: transparent;
+}
+
+.menu .menu-text {
+  font-weight: 600;
+  color: #212529;
+}
+
+.menu .menu-item a {
+  padding: 0.75rem 1rem;
+  color: #212529;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.menu .menu-item a:hover {
+  background-color: #f8f9fa;
+  text-decoration: none;
+}
+
+.menu .menu-item a.is-active {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+/* Pagination overrides */
+.pagination .current {
+  background: #ff6b35;
+  border-radius: 4px;
+}
+
+.pagination a {
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+  background: #f8f9fa;
+}

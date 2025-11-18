@@ -6,13 +6,14 @@ import { SocketProvider } from "./contexts/SocketContext";
 import Header from "./components/common/Header/Header";
 import Footer from "./components/common/Footer/Footer";
 import Home from "./pages/Home/Home";
+import RestaurantList from "./components/restaurants/RestaurantList/RestaurantList";
 import RestaurantDetail from "./pages/RestaurantDetail/RestaurantDetail";
 import Checkout from "./pages/Checkout/Checkout";
 import TrackOrder from "./pages/TrackOrder/TrackOrder";
 import Profile from "./pages/Profile/Profile";
 import Login from "./components/auth/Login/Login";
 import Register from "./components/auth/Register/Register";
-import "./App.scss";
+import "./App.css";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/restaurants" element={<RestaurantList />} />
                   <Route path="/register" element={<Register />} />
                   <Route
                     path="/restaurant/:id"

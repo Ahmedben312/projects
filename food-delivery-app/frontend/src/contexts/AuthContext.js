@@ -14,31 +14,23 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check if user is logged in on app start
-    const token = localStorage.getItem("token");
-    if (token) {
-      authService.setToken(token);
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
+    checkAuthStatus();
   }, []);
 
-  const fetchUser = async () => {
+  const checkAuthStatus = async () => {
     try {
-      const response = await authService.getCurrentUser();
-      if (response.success) {
-        setUser(response.data);
-      } else {
-        localStorage.removeItem("token");
-        authService.setToken(null);
+      if (authService.isAuthenticated()) {
+        const { user } = await authService.getCurrentUser();
+        setUser(user);
       }
     } catch (error) {
-      localStorage.removeItem("token");
-      authService.setToken(null);
+      console.error("Auth check failed:", error);
+      // Clear invalid auth data
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("authToken");
     } finally {
       setLoading(false);
     }
@@ -46,62 +38,46 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      setError("");
-      const response = await authService.login(email, password);
-      if (response.success) {
-        setUser(response.user);
-        localStorage.setItem("token", response.token);
-        return { success: true };
-      } else {
-        setError(response.message);
-        return { success: false, message: response.message };
-      }
+      setError(null);
+      const { user, token } = await authService.login(email, password);
+      setUser(user);
+      return { success: true };
     } catch (error) {
-      setError("Login failed. Please try again.");
-      return { success: false, message: "Login failed. Please try again." };
+      setError(error.message);
+      return { success: false, error: error.message };
     }
   };
 
   const register = async (userData) => {
     try {
-      setError("");
-      const response = await authService.register(userData);
-      if (response.success) {
-        setUser(response.user);
-        localStorage.setItem("token", response.token);
-        return { success: true };
-      } else {
-        setError(response.message);
-        return { success: false, message: response.message };
-      }
+      setError(null);
+      const { user, token } = await authService.register(userData);
+      setUser(user);
+      return { success: true };
     } catch (error) {
-      setError("Registration failed. Please try again.");
-      return {
-        success: false,
-        message: "Registration failed. Please try again.",
-      };
+      setError(error.message);
+      return { success: false, error: error.message };
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("token");
-    authService.setToken(null);
+  const logout = async () => {
+    try {
+      await authService.logout();
+      setUser(null);
+      setError(null);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
-  const updateProfile = async (profileData) => {
+  const updateProfile = async (userData) => {
     try {
-      const response = await authService.updateProfile(profileData);
-      if (response.success) {
-        setUser(response.data);
-        return { success: true };
-      } else {
-        setError(response.message);
-        return { success: false, message: response.message };
-      }
+      const { user: updatedUser } = await authService.updateProfile(userData);
+      setUser(updatedUser);
+      return { success: true };
     } catch (error) {
-      setError("Profile update failed.");
-      return { success: false, message: "Profile update failed." };
+      setError(error.message);
+      return { success: false, error: error.message };
     }
   };
 
@@ -113,9 +89,11 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateProfile,
-    setError,
+    isAuthenticated: !!user,
+    clearError: () => setError(null),
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-export { AuthContext }; // Add this line to export the context
+
+export default AuthContext;

@@ -1,89 +1,169 @@
 import { apiService } from "./api";
 
-class AuthService {
-  async login(email, password) {
-    try {
-      const response = await apiService.post("/auth/login", {
-        email,
-        password,
-      });
+// Mock user data for development
+const mockUsers = [
+  {
+    id: 1,
+    email: "user@example.com",
+    password: "password",
+    name: "John Doe",
+    phone: "+1234567890",
+    address: {
+      street: "123 Main St",
+      city: "New York",
+      zipCode: "10001",
+    },
+  },
+];
 
-      if (response.success) {
-        apiService.setToken(response.token);
-      }
+// Mock authentication service
+export const authService = {
+  // Login user
+  login: async (email, password) => {
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      return response;
-    } catch (error) {
+    // Find user in mock data
+    const user = mockUsers.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (user) {
+      // Remove password from user object
+      const { password: _, ...userWithoutPassword } = user;
+
+      // Store user in localStorage
+      localStorage.setItem("currentUser", JSON.stringify(userWithoutPassword));
+      localStorage.setItem("authToken", "mock-jwt-token-" + Date.now());
+
       return {
-        success: false,
-        message: error.message,
+        user: userWithoutPassword,
+        token: "mock-jwt-token-" + Date.now(),
+      };
+    } else {
+      throw new Error("Invalid email or password");
+    }
+  },
+
+  // Register new user
+  register: async (userData) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Check if user already exists
+    const existingUser = mockUsers.find((u) => u.email === userData.email);
+    if (existingUser) {
+      throw new Error("User already exists with this email");
+    }
+
+    // Create new user
+    const newUser = {
+      id: mockUsers.length + 1,
+      ...userData,
+    };
+
+    mockUsers.push(newUser);
+
+    // Remove password from response
+    const { password: _, ...userWithoutPassword } = newUser;
+
+    // Store user in localStorage
+    localStorage.setItem("currentUser", JSON.stringify(userWithoutPassword));
+    localStorage.setItem("authToken", "mock-jwt-token-" + Date.now());
+
+    return {
+      user: userWithoutPassword,
+      token: "mock-jwt-token-" + Date.now(),
+    };
+  },
+
+  // Logout user
+  logout: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("authToken");
+
+    return { success: true };
+  },
+
+  // Get current user
+  getCurrentUser: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    const user = localStorage.getItem("currentUser");
+    const token = localStorage.getItem("authToken");
+
+    if (user && token) {
+      return {
+        user: JSON.parse(user),
+        token: token,
       };
     }
-  }
 
-  async register(userData) {
-    try {
-      const response = await apiService.post("/auth/register", userData);
+    throw new Error("No user logged in");
+  },
 
-      if (response.success) {
-        apiService.setToken(response.token);
-      }
+  // Update user profile
+  updateProfile: async (userData) => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+    const updatedUser = { ...currentUser, ...userData };
+
+    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+
+    return { user: updatedUser };
+  },
+
+  // Change password
+  changePassword: async (currentPassword, newPassword) => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    // In a real app, you would verify current password first
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+    const userInMock = mockUsers.find((u) => u.id === currentUser.id);
+
+    if (userInMock && userInMock.password === currentPassword) {
+      userInMock.password = newPassword;
+      return { success: true };
+    } else {
+      throw new Error("Current password is incorrect");
     }
-  }
+  },
 
-  async getCurrentUser() {
-    try {
-      const response = await apiService.get("/auth/me");
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
+  // Forgot password
+  forgotPassword: async (email) => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    const user = mockUsers.find((u) => u.email === email);
+    if (!user) {
+      throw new Error("No user found with this email");
     }
-  }
 
-  async updateProfile(profileData) {
-    try {
-      const response = await apiService.put("/auth/profile", profileData);
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
+    // In a real app, you would send an email here
+    return {
+      success: true,
+      message: "Password reset instructions sent to your email",
+    };
+  },
 
-  async updatePassword(currentPassword, newPassword) {
-    try {
-      const response = await apiService.put("/auth/password", {
-        currentPassword,
-        newPassword,
-      });
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
+  // Reset password
+  resetPassword: async (token, newPassword) => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-  setToken(token) {
-    apiService.setToken(token);
-  }
+    // In a real app, you would verify the token
+    return { success: true, message: "Password reset successfully" };
+  },
 
-  logout() {
-    apiService.setToken(null);
-  }
-}
+  // Check if user is authenticated
+  isAuthenticated: () => {
+    return !!localStorage.getItem("authToken");
+  },
 
-export const authService = new AuthService();
+  // Get auth token
+  getToken: () => {
+    return localStorage.getItem("authToken");
+  },
+};
+
+export default authService;

@@ -1,0 +1,243 @@
+.order-history {
+  padding: 2rem 0;
+  min-height: 80vh;
+}
+
+.order-history .page-header {
+  margin-bottom: 2rem;
+}
+
+.order-history .page-header h1 {
+  color: #212529;
+  margin-bottom: 0.5rem;
+}
+
+.order-history .filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.order-history .filters .filter-group {
+  min-width: 200px;
+}
+
+.order-history .filters .filter-group select {
+  width: 100%;
+}
+
+.order-history .filters .search-box {
+  flex: 1;
+  min-width: 250px;
+}
+
+.order-history .orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-history .order-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.order-history .order-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.order-history .order-card .order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.order-history .order-card .order-header .order-info .order-number {
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.25rem;
+}
+
+.order-history .order-card .order-header .order-info .order-date {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.order-history .order-card .order-header .order-status {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.order-history .order-card .order-header .order-status.completed {
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+}
+
+.order-history .order-card .order-header .order-status.pending {
+  background: rgba(243, 156, 18, 0.1);
+  color: #f39c12;
+}
+
+.order-history .order-card .order-header .order-status.cancelled {
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+.order-history .order-card .order-header .order-status.preparing {
+  background: rgba(255, 107, 53, 0.1);
+  color: #ff6b35;
+}
+
+.order-history .order-card .order-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .order-history .order-card .order-details {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+.order-history .order-card .order-details .restaurant-info .restaurant-name {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.order-history .order-card .order-details .restaurant-info .items-preview {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.order-history .order-card .order-details .delivery-info .info-label,
+.order-history .order-card .order-details .payment-info .info-label {
+  color: #6c757d;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.order-history .order-card .order-details .delivery-info .info-value,
+.order-history .order-card .order-details .payment-info .info-value {
+  font-weight: 500;
+}
+
+.order-history .order-card .order-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.order-history .order-card .order-actions button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.order-history .order-card .order-actions button:hover {
+  background: #f8f9fa;
+}
+
+.order-history .order-card .order-actions button.reorder-btn {
+  background: #ff6b35;
+  color: #ffffff;
+  border-color: #ff6b35;
+}
+
+.order-history .order-card .order-actions button.reorder-btn:hover {
+  background: #e55a2b;
+}
+
+.order-history .order-card .order-actions button.track-btn {
+  background: #2c3e50;
+  color: #ffffff;
+  border-color: #2c3e50;
+}
+
+.order-history .order-card .order-actions button.track-btn:hover {
+  background: #1a252f;
+}
+
+.order-history .empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6c757d;
+}
+
+.order-history .empty-state .icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.order-history .empty-state h3 {
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+
+.order-history .empty-state p {
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.order-history .empty-state .browse-btn {
+  background: #ff6b35;
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-history .empty-state .browse-btn:hover {
+  background: #e55a2b;
+}
+
+.order-history .pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+
+.order-history .pagination button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-history .pagination button:hover:not(:disabled) {
+  background: #f8f9fa;
+}
+
+.order-history .pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.order-history .pagination button.active {
+  background: #ff6b35;
+  color: #ffffff;
+  border-color: #ff6b35;
+}

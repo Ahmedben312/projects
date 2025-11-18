@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { restaurantService } from "../../services/restaurantService";
 import { useCart } from "../../contexts/CartContext";
-import "./RestaurantDetail.scss";
+import "./RestaurantDetail.css";
 
 const RestaurantDetail = () => {
   const { id } = useParams();

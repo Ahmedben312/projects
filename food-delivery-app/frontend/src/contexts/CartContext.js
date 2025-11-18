@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const CartContext = createContext();
 
@@ -14,61 +14,64 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [restaurant, setRestaurant] = useState(null);
 
-  const addToCart = (item, restaurantInfo) => {
+  // Load cart from localStorage on component mount
+  useEffect(() => {
+    const savedCart = localStorage.getItem("foodDeliveryCart");
+    const savedRestaurant = localStorage.getItem("currentRestaurant");
+
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
+    if (savedRestaurant) {
+      setRestaurant(JSON.parse(savedRestaurant));
+    }
+  }, []);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("foodDeliveryCart", JSON.stringify(cartItems));
+    if (restaurant) {
+      localStorage.setItem("currentRestaurant", JSON.stringify(restaurant));
+    } else {
+      localStorage.removeItem("currentRestaurant");
+    }
+  }, [cartItems, restaurant]);
+
+  const addToCart = (item, quantity = 1) => {
     setCartItems((prevItems) => {
-      // If adding from a different restaurant, clear cart
-      if (restaurant && restaurant._id !== restaurantInfo._id) {
-        const confirmClear = window.confirm(
-          "You have items from another restaurant in your cart. Would you like to clear the cart and add items from this restaurant?"
-        );
-        if (confirmClear) {
-          setRestaurant(restaurantInfo);
-          return [{ ...item, id: Date.now().toString() }];
-        } else {
-          return prevItems;
-        }
-      }
-
-      // If first item, set restaurant
-      if (prevItems.length === 0) {
-        setRestaurant(restaurantInfo);
-      }
-
-      // Check if item already exists in cart
-      const existingItemIndex = prevItems.findIndex(
-        (cartItem) => cartItem.menuItemId === item.menuItemId
+      const existingItem = prevItems.find(
+        (cartItem) => cartItem._id === item._id
       );
 
-      if (existingItemIndex > -1) {
-        // Update quantity
-        const updatedItems = [...prevItems];
-        updatedItems[existingItemIndex].quantity += item.quantity;
-        return updatedItems;
+      if (existingItem) {
+        // Update quantity if item already exists
+        return prevItems.map((cartItem) =>
+          cartItem._id === item._id
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
+            : cartItem
+        );
       } else {
-        // Add new item
-        return [...prevItems, { ...item, id: Date.now().toString() }];
+        // Add new item to cart
+        return [...prevItems, { ...item, quantity }];
       }
     });
   };
 
   const removeFromCart = (itemId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
-
-    // Clear restaurant if cart is empty
-    if (cartItems.length === 1) {
-      setRestaurant(null);
-    }
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item._id !== itemId)
+    );
   };
 
-  const updateQuantity = (itemId, newQuantity) => {
-    if (newQuantity < 1) {
+  const updateQuantity = (itemId, quantity) => {
+    if (quantity <= 0) {
       removeFromCart(itemId);
       return;
     }
 
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
+        item._id === itemId ? { ...item, quantity } : item
       )
     );
   };
@@ -78,22 +81,19 @@ export const CartProvider = ({ children }) => {
     setRestaurant(null);
   };
 
-  const getTotalItems = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  const setCurrentRestaurant = (restaurantData) => {
+    setRestaurant(restaurantData);
   };
 
-  const getSubtotal = () => {
+  const getCartTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
   };
 
-  const getTotal = () => {
-    const subtotal = getSubtotal();
-    const deliveryFee = restaurant?.deliveryFee || 2.99;
-    const tax = subtotal * 0.08;
-    return subtotal + deliveryFee + tax;
+  const getCartItemCount = () => {
+    return cartItems.reduce((count, item) => count + item.quantity, 0);
   };
 
   const value = {
@@ -103,11 +103,13 @@ export const CartProvider = ({ children }) => {
     removeFromCart,
     updateQuantity,
     clearCart,
-    getTotalItems,
-    getSubtotal,
-    getTotal,
+    setCurrentRestaurant,
+    getCartTotal,
+    getCartItemCount,
+    isCartEmpty: cartItems.length === 0,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
-export { CartContext }; // Add this line to export the context
+
+export default CartContext;

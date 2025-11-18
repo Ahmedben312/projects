@@ -1,122 +1,74 @@
 import { sampleOrder } from "../mock/data";
 
-const USE_MOCKS = true;
+// Mock service for orders
+export const orderService = {
+  // Create new order
+  createOrder: async (orderData) => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-class OrderService {
-  async createOrder(orderData) {
-    if (USE_MOCKS) {
-      const created = {
-        ...sampleOrder,
-        _id: `o_${Date.now()}`,
-        status: "placed",
-        items: orderData.items,
-      };
-      return { success: true, data: created };
+    // Generate a random order ID
+    const orderId = "order_" + Math.random().toString(36).substr(2, 9);
+
+    const newOrder = {
+      _id: orderId,
+      ...orderData,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+      estimatedDelivery: new Date(Date.now() + 45 * 60000).toISOString(), // 45 minutes from now
+      updates: ["Order received"],
+    };
+
+    // Save to localStorage for persistence during development
+    const orders = JSON.parse(localStorage.getItem("userOrders") || "[]");
+    orders.push(newOrder);
+    localStorage.setItem("userOrders", JSON.stringify(orders));
+
+    return { data: newOrder };
+  },
+
+  // Get order by ID
+  getOrderById: async (orderId) => {
+    await new Promise((resolve) => setTimeout(resolve, 400));
+
+    // Try to get from localStorage first, then fall back to sample
+    const orders = JSON.parse(localStorage.getItem("userOrders") || "[]");
+    const order = orders.find((o) => o._id === orderId) || sampleOrder;
+
+    if (!order) {
+      throw new Error("Order not found");
     }
 
-    try {
-      const response = await apiService.post("/orders", orderData);
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
+    return { data: order };
+  },
 
-  async getOrders(filters = {}) {
-    if (USE_MOCKS) {
-      return { success: true, count: 1, total: 1, data: [sampleOrder] };
-    }
+  // Get user's order history
+  getUserOrders: async (userId) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    try {
-      const queryParams = new URLSearchParams();
+    const orders = JSON.parse(localStorage.getItem("userOrders") || "[]");
+    const userOrders = orders.filter((order) => order.userId === userId);
 
-      Object.keys(filters).forEach((key) => {
-        if (filters[key]) {
-          queryParams.append(key, filters[key]);
-        }
-      });
+    return { data: userOrders };
+  },
 
-      const url = `/orders${
-        queryParams.toString() ? `?${queryParams.toString()}` : ""
-      }`;
-      const response = await apiService.get(url);
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
+  // Update order status
+  updateOrderStatus: async (orderId, status, updateMessage) => {
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
-  async getOrder(id) {
-    if (USE_MOCKS) {
-      if (sampleOrder._id === id) return { success: true, data: sampleOrder };
-      return { success: false, message: "Order not found" };
+    const orders = JSON.parse(localStorage.getItem("userOrders") || "[]");
+    const orderIndex = orders.findIndex((o) => o._id === orderId);
+
+    if (orderIndex !== -1) {
+      orders[orderIndex].status = status;
+      if (updateMessage) {
+        orders[orderIndex].updates = orders[orderIndex].updates || [];
+        orders[orderIndex].updates.push(updateMessage);
+      }
+      localStorage.setItem("userOrders", JSON.stringify(orders));
     }
 
-    try {
-      const response = await apiService.get(`/orders/${id}`);
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
+    return { data: { success: true } };
+  },
+};
 
-  async getOrderTracking(id) {
-    if (USE_MOCKS) {
-      const tracking = { ...sampleOrder, _id: id, status: sampleOrder.status };
-      return { success: true, data: tracking };
-    }
-
-    try {
-      const response = await apiService.get(`/orders/${id}/tracking`);
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
-
-  async updateOrderStatus(id, status) {
-    if (USE_MOCKS) {
-      return { success: true, data: { _id: id, status } };
-    }
-
-    try {
-      const response = await apiService.put(`/orders/${id}/status`, { status });
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
-
-  async cancelOrder(id) {
-    if (USE_MOCKS) {
-      return { success: true, data: { _id: id, status: "cancelled" } };
-    }
-
-    try {
-      const response = await apiService.put(`/orders/${id}/cancel`);
-      return response;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  }
-}
-
-export const orderService = new OrderService();
+export default orderService;

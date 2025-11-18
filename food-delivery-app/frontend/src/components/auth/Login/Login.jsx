@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext"; // Updated path
 import { useNavigate, Link } from "react-router-dom";
-import "./Login.scss";
+import "./Login.css";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",

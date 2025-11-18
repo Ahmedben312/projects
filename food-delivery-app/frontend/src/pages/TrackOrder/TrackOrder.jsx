@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { orderService } from "../../services/orderService";
-import "./TrackOrder.scss";
+import "./TrackOrder.css";
 
 const TrackOrder = () => {
   const { orderId } = useParams();

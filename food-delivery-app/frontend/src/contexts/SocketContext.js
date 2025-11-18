@@ -1,6 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import io from "socket.io-client";
-import { useAuth } from "./AuthContext";
 
 const SocketContext = createContext();
 
@@ -13,74 +11,46 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const { user } = useAuth();
+  const [orders, setOrders] = useState({});
 
+  // Mock socket connection for development
   useEffect(() => {
-    if (user) {
-      // derive socket base url from API url, strip any trailing /api
-      const rawApi =
-        process.env.REACT_APP_API_URL || "http://localhost:8000/api";
-      const socketUrl = rawApi.replace(/\/api\/?$/, "");
+    // Simulate socket connection
+    const timer = setTimeout(() => {
+      setIsConnected(true);
+    }, 1000);
 
-      const newSocket = io(socketUrl, {
-        transports: ["websocket"],
-      });
-
-      newSocket.on("connect", () => {
-        setIsConnected(true);
-        console.log("Connected to server");
-
-        // Join user room - use _id if present
-        const userId = user._id || user.id;
-        if (userId) newSocket.emit("user_join", userId);
-      });
-
-      newSocket.on("disconnect", () => {
-        setIsConnected(false);
-        console.log("Disconnected from server");
-      });
-
-      newSocket.on("connect_error", (error) => {
-        console.error("Socket connection error:", error);
-      });
-
-      setSocket(newSocket);
-
-      return () => {
-        newSocket.close();
-      };
-    } else {
-      if (socket) {
-        socket.close();
-        setSocket(null);
-        setIsConnected(false);
-      }
-    }
-  }, [user]);
+    return () => clearTimeout(timer);
+  }, []);
 
   const joinOrderRoom = (orderId) => {
-    if (socket && isConnected) {
-      socket.emit("order_join", orderId);
-    }
+    console.log(`Joining order room: ${orderId}`);
+    // In a real app, this would emit a socket event
   };
 
   const leaveOrderRoom = (orderId) => {
-    if (socket && isConnected) {
-      // client cannot directly leave server-side rooms; emit an intent to leave
-      socket.emit("order_leave", orderId);
-    }
+    console.log(`Leaving order room: ${orderId}`);
+    // In a real app, this would emit a socket event
+  };
+
+  const updateOrderStatus = (orderId, status) => {
+    setOrders((prev) => ({
+      ...prev,
+      [orderId]: { ...prev[orderId], status },
+    }));
   };
 
   const value = {
-    socket,
     isConnected,
     joinOrderRoom,
     leaveOrderRoom,
+    updateOrderStatus,
   };
 
   return (
     <SocketContext.Provider value={value}>{children}</SocketContext.Provider>
   );
 };
+
+export default SocketContext;

@@ -1,81 +1,76 @@
+// Main API service that can switch between mock and real backend
 const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+  process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 
-class ApiService {
-  constructor() {
-    this.baseURL = API_BASE_URL;
-    this.token = localStorage.getItem("token");
-  }
+// Check if we should use mock data (during development)
+const USE_MOCK_DATA =
+  !process.env.REACT_APP_API_URL || process.env.NODE_ENV === "development";
 
-  setToken(token) {
-    this.token = token;
-    if (token) {
-      localStorage.setItem("token", token);
-    } else {
-      localStorage.removeItem("token");
-    }
-  }
-
-  getHeaders() {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`;
+export const apiService = {
+  // Generic GET request
+  get: async (endpoint) => {
+    if (USE_MOCK_DATA) {
+      // Import mock services dynamically to avoid circular dependencies
+      const module = await import("./restaurantService");
+      return module.restaurantService.getRestaurants();
     }
 
-    return headers;
-  }
+    const response = await fetch(`${API_BASE_URL}${endpoint}`);
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    return response.json();
+  },
 
-  async handleResponse(response) {
-    const data = await response.json();
+  // Generic POST request
+  post: async (endpoint, data) => {
+    if (USE_MOCK_DATA) {
+      const module = await import("./orderService");
+      return module.orderService.createOrder(data);
+    }
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
     if (!response.ok) {
-      if (response.status === 401) {
-        // Token expired or invalid
-        this.setToken(null);
-        window.location.href = "/login";
-      }
-      throw new Error(data.message || "Something went wrong");
+      throw new Error(`API error: ${response.status}`);
     }
+    return response.json();
+  },
 
-    return data;
-  }
-
-  async get(url) {
-    const response = await fetch(`${this.baseURL}${url}`, {
-      method: "GET",
-      headers: this.getHeaders(),
-    });
-    return this.handleResponse(response);
-  }
-
-  async post(url, data) {
-    const response = await fetch(`${this.baseURL}${url}`, {
-      method: "POST",
-      headers: this.getHeaders(),
-      body: JSON.stringify(data),
-    });
-    return this.handleResponse(response);
-  }
-
-  async put(url, data) {
-    const response = await fetch(`${this.baseURL}${url}`, {
+  // Generic PUT request
+  put: async (endpoint, data) => {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "PUT",
-      headers: this.getHeaders(),
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     });
-    return this.handleResponse(response);
-  }
 
-  async delete(url) {
-    const response = await fetch(`${this.baseURL}${url}`, {
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    return response.json();
+  },
+
+  // Generic DELETE request
+  delete: async (endpoint) => {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "DELETE",
-      headers: this.getHeaders(),
     });
-    return this.handleResponse(response);
-  }
-}
 
-export const apiService = new ApiService();
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    return response.json();
+  },
+};
+
+// Also export as default for backward compatibility
+export default apiService;

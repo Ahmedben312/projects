@@ -1,0 +1,38 @@
+.login-page {
+  padding: 2rem 0;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-card h2 {
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+
+.login-card .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.login-card .login-links {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--light-gray);
+}
+
+.login-card .login-links a {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.login-card .login-links a:hover {
+  text-decoration: underline;
+}

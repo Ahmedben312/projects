@@ -1,0 +1,38 @@
+.register-page {
+  padding: 2rem 0;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.register-card h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+.register-card .form-group {
+  margin-bottom: 1rem;
+}
+
+.register-card .register-links {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--light-gray);
+}
+
+.register-card .register-links a {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.register-card .register-links a:hover {
+  text-decoration: underline;
+}

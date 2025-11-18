@@ -1,0 +1,139 @@
+.map-component {
+  width: 100%;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  margin-bottom: 1.5rem;
+  background: var(--light-gray);
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+  font-size: 1.2rem;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--light-gray),
+    var(--white) 20px,
+    var(--light-gray) 40px
+  );
+  border-radius: var(--card-radius);
+  text-align: center;
+  padding: 2rem;
+}
+
+.map-placeholder svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+.map-container {
+  width: 100%;
+  height: 350px;
+  border-radius: var(--card-radius);
+  box-shadow: var(--box-shadow);
+  margin: 1.5rem 0;
+  background: var(--light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.map-container .gm-style {
+  font-family: var(--body-font-family);
+}
+
+.map-marker {
+  background-color: var(--primary-color);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  box-shadow: var(--box-shadow);
+}
+
+.map-marker.restaurant {
+  background-color: var(--success-color);
+}
+
+.map-marker.driver {
+  background-color: var(--secondary-color);
+}
+
+.map-marker.delivery {
+  background-color: var(--alert-color);
+}
+
+.map-info-window {
+  padding: 0.5rem;
+}
+
+.map-info-window h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--darker-gray);
+}
+
+.map-info-window p {
+  margin: 0;
+  color: var(--dark-gray);
+  font-size: 0.875rem;
+}
+
+.map-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.map-controls button {
+  background: var(--white);
+  border: none;
+  border-radius: var(--global-radius);
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+  transition: var(--global-transition);
+}
+
+.map-controls button:hover {
+  background: var(--light-gray);
+}
+
+.map-controls button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+}
+
+.map-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: var(--light-gray);
+  color: var(--dark-gray);
+  border-radius: var(--card-radius);
+}
+
+.map-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: var(--light-gray);
+  color: var(--alert-color);
+  border-radius: var(--card-radius);
+  text-align: center;
+  padding: 2rem;
+}
