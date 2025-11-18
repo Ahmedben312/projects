@@ -60,12 +60,27 @@ const MapComponent = ({
     height: height,
   };
 
+  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "";
+
+  if (!apiKey) {
+    return (
+      <div className="map-component map-placeholder">
+        <p>
+          Google Maps API key is not set. Please add
+          `REACT_APP_GOOGLE_MAPS_API_KEY` to your `.env`.
+        </p>
+      </div>
+    );
+  }
+
+  const mapCenter = center || defaultCenter;
+
   return (
     <div className="map-component">
-      <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+      <LoadScript googleMapsApiKey={apiKey}>
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={center}
+          center={mapCenter}
           zoom={zoom}
           onLoad={onLoad}
           onUnmount={onUnmount}

@@ -19,19 +19,22 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      const newSocket = io(
-        process.env.REACT_APP_API_URL || "http://localhost:5000",
-        {
-          transports: ["websocket"],
-        }
-      );
+      // derive socket base url from API url, strip any trailing /api
+      const rawApi =
+        process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+      const socketUrl = rawApi.replace(/\/api\/?$/, "");
+
+      const newSocket = io(socketUrl, {
+        transports: ["websocket"],
+      });
 
       newSocket.on("connect", () => {
         setIsConnected(true);
         console.log("Connected to server");
 
-        // Join user room
-        newSocket.emit("user_join", user.id);
+        // Join user room - use _id if present
+        const userId = user._id || user.id;
+        if (userId) newSocket.emit("user_join", userId);
       });
 
       newSocket.on("disconnect", () => {
@@ -65,7 +68,8 @@ export const SocketProvider = ({ children }) => {
 
   const leaveOrderRoom = (orderId) => {
     if (socket && isConnected) {
-      socket.leave(`order_${orderId}`);
+      // client cannot directly leave server-side rooms; emit an intent to leave
+      socket.emit("order_leave", orderId);
     }
   };
 

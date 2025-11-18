@@ -25,18 +25,19 @@ export const useGeolocation = (options = {}) => {
     const handleError = (error) => {
       let errorMessage = "Unknown error occurred while getting location.";
 
+      // error.code is a numeric value: 1=PERMISSION_DENIED,2=POSITION_UNAVAILABLE,3=TIMEOUT
       switch (error.code) {
-        case error.PERMISSION_DENIED:
+        case 1:
           errorMessage = "User denied the request for Geolocation.";
           break;
-        case error.POSITION_UNAVAILABLE:
+        case 2:
           errorMessage = "Location information is unavailable.";
           break;
-        case error.TIMEOUT:
+        case 3:
           errorMessage = "The request to get user location timed out.";
           break;
         default:
-          errorMessage = error.message;
+          errorMessage = error.message || errorMessage;
       }
 
       setError(errorMessage);
@@ -49,7 +50,7 @@ export const useGeolocation = (options = {}) => {
       handleError,
       options
     );
-  }, []);
+  }, [JSON.stringify(options)]);
 
   return { location, error, loading };
 };

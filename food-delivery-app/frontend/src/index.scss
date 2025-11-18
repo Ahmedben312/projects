@@ -1,7 +1,7 @@
 // ALL @use statements MUST be at the very top - NOTHING before them
 @use "sass:meta";
 @use "~foundation-sites/scss/foundation" as *;
-@use "./styles/variables" as *;
+@use "./styles/variables" as vars;
 @use "./styles/mixins" as *;
 
 // Include all foundation components
@@ -55,7 +55,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8f9fa; // Hardcoded instead of $light-gray
+  background-color: vars.$light-gray;
+  color: vars.$darker-gray;
+  line-height: 1.5;
 }
 
 code {
@@ -125,21 +127,21 @@ code {
   align-items: center;
   height: 200px;
   font-size: 1.2rem;
-  color: #343a40; // Hardcoded instead of $dark-gray
+  color: vars.$dark-gray;
 }
 
 .error {
-  background-color: #e74c3c; // Hardcoded instead of $error-color
-  color: white;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  background-color: vars.$error-color;
+  color: vars.$white;
+  padding: vars.$global-padding;
+  border-radius: vars.$global-radius;
+  margin-bottom: vars.$global-margin;
 }
 
 .success {
-  background-color: #27ae60; // Hardcoded instead of $success-color
-  color: white;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  background-color: vars.$success-color;
+  color: vars.$white;
+  padding: vars.$global-padding;
+  border-radius: vars.$global-radius;
+  margin-bottom: vars.$global-margin;
 }

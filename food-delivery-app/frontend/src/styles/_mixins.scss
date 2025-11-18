@@ -1,3 +1,6 @@
+// Import variables
+@use "./variables" as vars;
+
 // Media Queries
 @mixin breakpoint($size) {
   @if $size == small {
@@ -38,39 +41,39 @@
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 4px;
+  border-radius: vars.$global-radius;
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
   text-align: center;
-  transition: background-color 0.3s ease;
+  transition: vars.$global-transition;
 
   &:hover {
     background-color: darken($color, 10%);
   }
 
   &:disabled {
-    background-color: #cccccc;
+    background-color: lighten($color, 50%);
     cursor: not-allowed;
   }
 }
 
-// Form Input Styles - USING HARDCODED VALUES TO AVOID VARIABLE ISSUES
+// Form Input Styles
 @mixin form-input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #e9ecef; // Hardcoded instead of $medium-gray
-  border-radius: 4px;
+  border: 1px solid vars.$medium-gray;
+  border-radius: vars.$global-radius;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: vars.$global-transition;
 
   &:focus {
     outline: none;
-    border-color: #ff6b35; // Hardcoded instead of $primary-color
-    box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2); // Hardcoded
+    border-color: vars.$primary-color;
+    box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
   }
 
   &.is-invalid {
-    border-color: #e74c3c; // Hardcoded instead of $error-color
+    border-color: vars.$error-color;
   }
 }

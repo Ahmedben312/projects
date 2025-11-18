@@ -20,11 +20,7 @@ app.use(express.json());
 
 // Database connection
 mongoose.connect(
-  process.env.MONGO_URI || "mongodb://localhost:27017/fooddelivery",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+  process.env.MONGO_URI || "mongodb://localhost:27017/fooddelivery"
 );
 
 // Socket.io for real-time updates
@@ -54,6 +50,8 @@ app.use("/api/drivers", require("./routes/drivers"));
 app.use(require("./middleware/errorHandler"));
 
 const PORT = process.env.PORT || 8001;
-server.listen(PORT, "localhost", () => {
+
+// Bind to localhost to avoid permission issues.
+server.listen(PORT, "127.0.0.1", () => {
   console.log(`Server running on port ${PORT}`);
 });

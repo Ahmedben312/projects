@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSocket } from "../../../hooks/useSocket";
+import { useSocket } from "../../../contexts/SocketContext";
+import { orderService } from "../../../services/orderService";
 import MapComponent from "../../common/Map/MapComponent";
 import "./OrderTracking.scss";
 
@@ -23,7 +24,8 @@ const OrderTracking = () => {
   useEffect(() => {
     if (!socket || !orderId) return;
 
-    // Join order room for real-time updates
+    // Join order room for real-time updates (emit both common event names for compatibility)
+    socket.emit("order_join", orderId);
     socket.emit("join_order_room", orderId);
 
     // Listen for order updates
@@ -31,9 +33,15 @@ const OrderTracking = () => {
       setOrder(updatedOrder);
     });
 
-    // Listen for driver location updates
-    socket.on("driver_location_updated", (location) => {
-      setDriverLocation(location);
+    // Listen for driver location updates. Payload may be { driverId, location } or direct { latitude, longitude }
+    socket.on("driver_location_updated", (payload) => {
+      const loc = payload?.location || payload;
+      if (!loc) return;
+      const lat = loc.latitude ?? loc.lat;
+      const lng = loc.longitude ?? loc.lng;
+      if (lat != null && lng != null) {
+        setDriverLocation({ lat, lng });
+      }
     });
 
     return () => {
@@ -43,14 +51,11 @@ const OrderTracking = () => {
   }, [socket, orderId]);
 
   useEffect(() => {
-    // Fetch initial order data
+    // Fetch initial order data (use orderService which may use mocks)
     const fetchOrder = async () => {
       try {
-        const response = await fetch(`/api/orders/${orderId}`);
-        const data = await response.json();
-        if (data.success) {
-          setOrder(data.data);
-        }
+        const res = await orderService.getOrder(orderId);
+        if (res && res.success) setOrder(res.data);
       } catch (error) {
         console.error("Error fetching order:", error);
       }
