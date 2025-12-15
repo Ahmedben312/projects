@@ -1,0 +1,110 @@
+L’utilisation de navigator.sendBeacon au lieu de XMLHttpRequest synchrones pendant le déchargement ou le masquage de la page améliore l’expérience utilisateur. main.js:1111:25
+[vite] connecting... client:229:9
+[vite] connected. client:325:21
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. Component Stack: 
+    BrowserRouter index.tsx:793
+    App unknown:0
+<anonymous code>:1:145535
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. Component Stack: 
+    BrowserRouter index.tsx:793
+    App unknown:0
+<anonymous code>:1:145535
+GET
+http://localhost:3000/vite.svg
+[HTTP/1.1 404 Not Found 2ms]
+
+Erreur dans les liens source : Error: request failed with status 404
+Stack in the worker:networkRequest@resource://devtools/client/shared/source-map-loader/utils/network-request.js:43:9
+
+URL de la ressource : http://localhost:3000/%3Canonymous%20code%3E
+URL du lien source : installHook.js.map
+Warning: Each child in a list should have a unique "key" prop.
+
+Check the render method of `BookList`. See https://reactjs.org/link/warning-keys for more information.
+BookCard@http://localhost:3000/src/components/books/BookCard.tsx:17:18
+BookList@http://localhost:3000/src/components/books/BookList.tsx:18:18
+div
+Books@http://localhost:3000/src/pages/Books.tsx:28:20
+ProtectedRoute@http://localhost:3000/src/App.tsx:33:24
+RenderedRoute@http://localhost:3000/node_modules/.vite/deps/react-router-dom.js?v=520aecb6:4126:7
+Routes@http://localhost:3000/node_modules/.vite/deps/react-router-dom.js?v=520aecb6:4596:7
+main
+div
+AppLayout
+AuthProvider@http://localhost:3000/src/context/AuthContext.tsx:28:29
+Router@http://localhost:3000/node_modules/.vite/deps/react-router-dom.js?v=520aecb6:4544:7
+BrowserRouter@http://localhost:3000/node_modules/.vite/deps/react-router-dom.js?v=520aecb6:5290:7
+App <anonymous code>:1:145535
+XHRPOST
+http://localhost:5000/api/borrow
+[HTTP/1.1 400 Bad Request 22ms]
+
+Error borrowing book: 
+Object { message: "Request failed with status code 400", name: "AxiosError", code: "ERR_BAD_REQUEST", config: {…}, request: XMLHttpRequest, response: {…}, status: 400, stack: "", … }
+<anonymous code>:1:145535
+XHRPOST
+http://localhost:5000/api/borrow
+[HTTP/1.1 400 Bad Request 6ms]
+
+Error borrowing book: 
+Object { message: "Request failed with status code 400", name: "AxiosError", code: "ERR_BAD_REQUEST", config: {…}, request: XMLHttpRequest, response: {…}, status: 400, stack: "", … }
+<anonymous code>:1:145535
+XHRPUT
+http://localhost:5000/api/borrow/693b4ebddec38bd98ec87b56/return
+[HTTP/1.1 404 Not Found 6ms]
+
+when i want to return this book i get route not found from either currentlly borrowing or borred history also show me more than 10 books and use the books stored in the databas not those [{
+	"resource": "/c:/Users/asus/Desktop/projects/projects/library-management-system/frontend/src/pages/Books.tsx",
+	"owner": "typescript",
+	"code": "2322",
+	"severity": 8,
+	"message": "Type 'import(\"c:/Users/asus/Desktop/projects/projects/library-management-system/frontend/src/types/index\").Book[]' is not assignable to type 'Book[]'.\n  Property 'id' is missing in type 'import(\"c:/Users/asus/Desktop/projects/projects/library-management-system/frontend/src/types/index\").Book' but required in type 'Book'.",
+	"source": "ts",
+	"startLineNumber": 179,
+	"startColumn": 21,
+	"endLineNumber": 179,
+	"endColumn": 26,
+	"relatedInformation": [
+		{
+			"startLineNumber": 5,
+			"startColumn": 3,
+			"endLineNumber": 5,
+			"endColumn": 5,
+			"message": "'id' is declared here.",
+			"resource": "/c:/Users/asus/Desktop/projects/projects/library-management-system/frontend/src/components/books/BookList.tsx"
+		},
+		{
+			"startLineNumber": 17,
+			"startColumn": 3,
+			"endLineNumber": 17,
+			"endColumn": 8,
+			"message": "The expected type comes from property 'books' which is declared here on type 'IntrinsicAttributes & BookListProps'",
+			"resource": "/c:/Users/asus/Desktop/projects/projects/library-management-system/frontend/src/components/books/BookList.tsx"
+		}
+	],
+	"origin": "extHost2"
+}][{
+	"resource": "/c:/Users/asus/Desktop/projects/projects/library-management-system/frontend/src/pages/Dashboard.tsx",
+	"owner": "typescript",
+	"code": "2339",
+	"severity": 8,
+	"message": "Property 'id' does not exist on type 'Book'.",
+	"source": "ts",
+	"startLineNumber": 161,
+	"startColumn": 31,
+	"endLineNumber": 161,
+	"endColumn": 33,
+	"origin": "extHost2"
+}][{
+	"resource": "/c:/Users/asus/Desktop/projects/projects/library-management-system/frontend/src/pages/Users.tsx",
+	"owner": "typescript",
+	"code": "2322",
+	"severity": 8,
+	"message": "Type '{ value: string; onChange: (value: string) => void; placeholder: string; }' is not assignable to type 'IntrinsicAttributes & SearchBarProps'.\n  Property 'value' does not exist on type 'IntrinsicAttributes & SearchBarProps'.",
+	"source": "ts",
+	"startLineNumber": 157,
+	"startColumn": 17,
+	"endLineNumber": 157,
+	"endColumn": 22,
+	"origin": "extHost2"
+}]

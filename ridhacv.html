@@ -5,116 +5,255 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ridha Briki - Physics Teacher CV</title>
     <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+      * {
         margin: 0;
         padding: 0;
-        background-color: #f8f9fa;
-        color: #333;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Roboto", sans-serif;
+        background: #f0f2f5;
         line-height: 1.6;
+        color: #333;
       }
-      .container {
-        max-width: 900px;
+      .resume-container {
+        display: flex;
+        max-width: 1100px;
         margin: 30px auto;
-        background: #ffffff;
-        padding: 40px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
+        background: white;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        border-radius: 10px;
       }
-      .header {
+      .left-column {
+        width: 35%;
+        background: linear-gradient(135deg, #2c3e50, #1a252f);
+        color: white;
+        padding: 50px 40px;
         text-align: center;
-        padding-bottom: 20px;
-        border-bottom: 3px solid #2c3e50;
-        margin-bottom: 30px;
       }
-      .header h1 {
-        margin: 0;
-        font-size: 2.8em;
-        color: #2c3e50;
+      .right-column {
+        width: 65%;
+        background: white;
+        padding: 50px 45px;
+      }
+      .photo {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 25px;
+        border: 6px solid #3498db;
+      }
+      .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .name {
+        font-size: 38px;
         font-weight: 700;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
       }
-      .header p {
-        margin: 8px 0 0;
-        font-size: 1.4em;
-        color: #34495e;
+      .title {
+        font-size: 20px;
+        font-weight: 400;
+        opacity: 0.9;
+        margin-bottom: 40px;
       }
-      .contact-info {
-        text-align: center;
-        margin: 20px 0;
-        font-size: 1.05em;
-        color: #555;
-      }
-      .contact-info a {
-        color: #2980b9;
-        text-decoration: none;
-      }
-      section {
-        margin-bottom: 35px;
-      }
-      h2 {
-        color: #2c3e50;
+      .section-left h3 {
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 40px 0 20px;
+        padding-bottom: 10px;
         border-bottom: 2px solid #3498db;
-        padding-bottom: 8px;
-        font-size: 1.5em;
-        margin-bottom: 15px;
+        display: inline-block;
       }
-      ul {
-        padding-left: 20px;
+      .contact-item {
+        margin: 18px 0;
+        font-size: 15px;
+        opacity: 0.95;
       }
-      li {
-        margin-bottom: 12px;
+      .skills-list,
+      .languages-list {
+        list-style: none;
+        text-align: left;
+        margin-top: 15px;
+      }
+      .skills-list li,
+      .languages-list li {
+        margin: 14px 0;
+        padding-left: 5px;
+        position: relative;
+      }
+      .skills-list li::before {
+        content: "▹";
+        color: #3498db;
+        position: absolute;
+        left: -20px;
+      }
+      .languages-list li span {
+        font-weight: 500;
+      }
+      .right-column h2 {
+        font-size: 24px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #2c3e50;
+        margin: 45px 0 25px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #3498db;
+        display: inline-block;
+      }
+      .profile-text {
+        font-size: 15.5px;
+        text-align: justify;
+        line-height: 1.7;
+        color: #444;
+      }
+      .job {
+        margin-bottom: 40px;
       }
       .job-title {
+        font-size: 20px;
         font-weight: 600;
         color: #2c3e50;
-        font-size: 1.15em;
+      }
+      .company {
+        font-size: 16px;
+        font-weight: 500;
+        color: #3498db;
+        margin: 5px 0;
       }
       .date {
-        font-style: italic;
+        font-size: 14px;
         color: #7f8c8d;
+        font-style: italic;
+        float: right;
+        margin-top: 5px;
       }
-      .summary {
-        font-size: 1.1em;
-        text-align: justify;
-        background: #ecf0f1;
-        padding: 20px;
-        border-left: 5px solid #3498db;
-        border-radius: 4px;
+      .job-description {
+        margin-top: 15px;
+        list-style: none;
+      }
+      .job-description li {
+        margin: 12px 0;
+        padding-left: 25px;
+        position: relative;
+        font-size: 15px;
+        color: #444;
+      }
+      .job-description li::before {
+        content: "•";
+        color: #3498db;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+      }
+      .education-item {
+        margin-bottom: 30px;
+        position: relative;
+      }
+      .education-item h4 {
+        font-size: 17px;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+      .education-item p {
+        margin: 5px 0;
+        color: #555;
+      }
+      .education-date {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #7f8c8d;
+        font-style: italic;
+      }
+      .research-list {
+        margin-top: 15px;
+      }
+      .research-list li {
+        margin: 16px 0;
+        font-size: 15px;
+        line-height: 1.5;
+        color: #444;
       }
       @media (max-width: 768px) {
-        .container {
-          padding: 20px;
+        .resume-container {
+          flex-direction: column;
         }
-        .header h1 {
-          font-size: 2.2em;
+        .left-column,
+        .right-column {
+          width: 100%;
+        }
+        .date,
+        .education-date {
+          float: none;
+          display: block;
+          margin-top: 8px;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <!-- Header -->
-      <div class="header">
-        <h1>Ridha Briki</h1>
-        <p>Physics Teacher | Materials Physics Researcher</p>
+    <div class="resume-container">
+      <!-- Left Column -->
+      <div class="left-column">
+        <div class="photo">
+          <img
+            src="./IMG_20251121_221515_189@-761256807.png"
+            alt="Ridha Briki"
+          />
+          <!-- Replace the src above with your actual photo URL -->
+        </div>
+        <h1 class="name">Ridha Briki</h1>
+        <p class="title">Physics Teacher<br />Materials Physics Researcher</p>
+
+        <div class="section-left">
+          <h3>Contact</h3>
+          <div class="contact-item">+216 52 952 334</div>
+          <div class="contact-item">+216 53 712 586</div>
+          <div class="contact-item">briki.ridha.99@gmail.com</div>
+          <div class="contact-item">Sokra, Sfax 3018<br />Tunisia</div>
+          <div class="contact-item">DOB: 01 June 1999</div>
+        </div>
+
+        <div class="section-left">
+          <h3>Skills</h3>
+          <ul class="skills-list">
+            <li>Advanced Physics & Materials Science</li>
+            <li>Raman / IR Spectroscopy</li>
+            <li>Impedance Spectroscopy & DSC</li>
+            <li>Phase Transitions Research</li>
+            <li>Lesson Planning & Delivery</li>
+            <li>Classroom Management</li>
+            <li>Differentiated Instruction</li>
+            <li>PhET, GeoGebra, Logger Pro</li>
+            <li>Google Classroom & Interactive Boards</li>
+            <li>Curriculum & Assessment Design</li>
+            <li>Experimental Design & Lab Safety</li>
+          </ul>
+        </div>
+
+        <div class="section-left">
+          <h3>Languages</h3>
+          <ul class="languages-list">
+            <li><span>Arabic</span> — Native</li>
+            <li><span>French</span> — Fluent</li>
+            <li><span>English</span> — Professional Proficiency</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- Contact Info -->
-      <div class="contact-info">
-        <p>
-          📧
-          <a href="mailto:briki.ridha.99@gmail.com">briki.ridha.99@gmail.com</a>
-          <br />
-          📱 +216 52 952 334 | +216 53 712 586 <br />
-          📍 Sokra, Sfax 3018, Tunisia <br />
-          🎂 Date of Birth: 01 June 1999
-        </p>
-      </div>
-
-      <!-- Professional Summary -->
-      <section>
-        <h2>Professional Summary</h2>
-        <p class="summary">
+      <!-- Right Column -->
+      <div class="right-column">
+        <h2>Profile</h2>
+        <p class="profile-text">
           Passionate and dedicated Physics Teacher with a Master’s degree in
           Physics (specializing in nanostructures and organic-inorganic hybrid
           materials) and three full academic years of secondary-level teaching
@@ -129,144 +268,79 @@
           can inspire students and contribute cutting-edge scientific knowledge
           to the curriculum.
         </p>
-      </section>
 
-      <!-- Professional Experience -->
-      <section>
         <h2>Professional Experience</h2>
-        <p class="job-title">Physics Teacher</p>
-        <p>Ennajah Private School – Sbeitla, Tunisia</p>
-        <p class="date">September 2021 – June 2024 (3 full academic years)</p>
-        <ul>
-          <li>
-            Taught Physics to high school students and middle school students in
-            Arabic and French mediums.
-          </li>
-          <li>
-            Designed interactive lessons in mechanics, electricity, optics,
-            waves, modern physics, and materials science.
-          </li>
-          <li>
-            Prepared students for the Tunisian Baccalauréat exams with
-            consistently strong pass rates and multiple high-achieving students.
-          </li>
-          <li>
-            Led laboratory sessions with emphasis on experimental design,
-            safety, and data analysis.
-          </li>
-          <li>
-            Developed assessments, coordinated parent-teacher communication, and
-            led extracurricular science club activities and competitions.
-          </li>
-        </ul>
-      </section>
+        <div class="job">
+          <div class="job-title">Physics Teacher</div>
+          <div class="company">Ennajah Private School — Sbeitla, Tunisia</div>
+          <div class="date">Sep 2021 – Jun 2024</div>
+          <ul class="job-description">
+            <li>
+              Taught Physics (in Arabic & French) to middle and high school
+              students
+            </li>
+            <li>
+              Designed interactive lessons in mechanics, electricity, optics,
+              waves, modern physics, and materials science
+            </li>
+            <li>
+              Prepared students for Tunisian Baccalauréat exams with
+              consistently achieving strong pass rates and multiple
+              high-achieving students
+            </li>
+            <li>
+              Led laboratory sessions with emphasis on experimental design,
+              safety, and data analysis
+            </li>
+            <li>
+              Developed assessments, coordinated parent-teacher communication,
+              and led extracurricular science club activities and competitions
+            </li>
+          </ul>
+        </div>
 
-      <!-- Education -->
-      <section>
-        <h2>Education</h2>
-        <ul>
-          <li>
-            <strong
-              >Master’s Degree in Physics – Research in Nanostructures</strong
-            ><br />
-            Faculty of Sciences of Sfax (FSS), University of Sfax, Tunisia<br />
-            (Completed)
-          </li>
-          <li style="margin-top: 15px">
-            <strong>Bachelor’s Degree (Licence) in Physics</strong><br />
-            Faculty of Sciences of Sfax (FSS), University of Sfax, Tunisia<br />
-            (Completed)
-          </li>
-          <li style="margin-top: 15px">
-            <strong
-              >Baccalauréat in Sciences (Experimental Sciences stream)</strong
-            ><br />
-            Secondary School, Tunisia<br />
-            <span class="date">June 2018</span>
-          </li>
-        </ul>
-      </section>
-
-      <!-- Research Presentations -->
-      <section>
-        <h2>Research Presentations & Scientific Seminars</h2>
-        <p>
-          Presented the following original research works on organic-inorganic
-          hybrid materials at university seminars and international conferences
-          (including IEEE International Conference on Smart Materials and
-          Surfaces – SMS 2024):
-        </p>
-        <ul>
+        <h2>Research Presentations & Conferences</h2>
+        <ul class="research-list">
           <li>
             Study on structural, vibrational, dielectric and transport
-            mechanisms of the new organic-inorganic compound
-            [(C<sub>4</sub>H<sub>9</sub>)<sub>4</sub>N]<sub>2</sub>CoBr<sub
-              >4</sub
-            >
+            mechanisms of the new organic-inorganic compound [(C₄H₉)₄N]₂CoBr₄
           </li>
           <li>
             Synthesis, Characterization and Study of Phase Transitions of an
             Organic-Inorganic Hybrid Compound: Application in Optoelectronics
           </li>
           <li>
-            Comparative study of
-            [N(C<sub>4</sub>H<sub>9</sub>)<sub>4</sub>]<sub>2</sub>CoBr<sub
-              >4</sub
-            >
-            and [N(C<sub>4</sub>H<sub>9</sub>)<sub>4</sub>]<sub>2</sub>ZnBr<sub
-              >4</sub
-            >
-            hybrids: structural, optical and electrical properties for
-            optoelectronics applications
+            Comparative study of [N(C₄H₉)₄]₂CoBr₄ and [N(C₄H₉)₄]₂ZnBr₄ hybrids:
+            structural, optical and electrical properties for optoelectronics
+            applications
           </li>
           <li>
             Study on structural, vibrational, dielectric and transport
-            mechanisms of the organic-inorganic compound
-            [(C<sub>4</sub>H<sub>9</sub>)<sub>4</sub>N]<sub>2</sub>ZnBr<sub
-              >4</sub
-            >
+            mechanisms of the organic-inorganic compound [(C₄H₉)₄N]₂ZnBr₄
+          </li>
+          <li>
+            Presented at IEEE International Conference on Smart Materials and
+            Surfaces (SMS 2024) and multiple university seminars
           </li>
         </ul>
-      </section>
 
-      <!-- Skills & Languages -->
-      <section>
-        <h2>Skills & Languages</h2>
-        <ul>
-          <li>
-            Advanced knowledge of physics concepts, materials science, and
-            laboratory techniques (Raman, IR, DSC, impedance spectroscopy)
-          </li>
-          <li>
-            Lesson planning, differentiated instruction, and classroom
-            management
-          </li>
-          <li>
-            Hands-on experimental design and student-led research projects
-          </li>
-          <li>
-            Use of digital teaching tools (Google Classroom, PhET simulations,
-            GeoGebra, Logger Pro, interactive whiteboards)
-          </li>
-          <li>Curriculum development and assessment design</li>
-          <li>
-            <strong>Languages:</strong> Arabic (Native), French (Fluent),
-            English (Professional working proficiency – ready for full immersion
-            in international environment)
-          </li>
-        </ul>
-      </section>
-
-      <p
-        style="
-          text-align: center;
-          color: #7f8c8d;
-          font-size: 0.9em;
-          margin-top: 50px;
-        "
-      >
-        References available upon request
-      </p>
+        <h2>Education</h2>
+        <div class="education-item">
+          <h4>Master’s Degree in Physics — Research in Nanostructures</h4>
+          <p>Faculty of Sciences of Sfax (FSS), University of Sfax, Tunisia</p>
+          <div class="education-date">Completed</div>
+        </div>
+        <div class="education-item">
+          <h4>Bachelor’s Degree (Licence) in Physics</h4>
+          <p>Faculty of Sciences of Sfax (FSS), University of Sfax, Tunisia</p>
+          <div class="education-date">Completed</div>
+        </div>
+        <div class="education-item">
+          <h4>Baccalauréat in Sciences (Experimental Sciences stream)</h4>
+          <p>Secondary School, Tunisia</p>
+          <div class="education-date">June 2018</div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

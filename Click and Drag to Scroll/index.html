@@ -35,40 +35,41 @@
       <div class="item item25">25</div>
     </div>
 
-    <script>
-      const slider = document.querySelector(".items");
+            <script>
+      const slider = document.querySelector('.items');
       let isDown = false;
       let startX;
       let scrollLeft;
 
-      slider.addEventListener("mousedown", (e) => {
+      function start(e) {
         isDown = true;
-        slider.classList.add("active");
-        //console.log(e.pageX);
-        startX = e.pageX - slider.offsetLeft;
+        slider.classList.add('active');
+        startX = (e.pageX || e.touches[0].pageX) - slider.offsetLeft;
         scrollLeft = slider.scrollLeft;
-        //console.log(startX);
-      });
-      slider.addEventListener("mouseleave", () => {
-        isDown = false;
-        slider.classList.remove("active");
-      });
-      slider.addEventListener("mouseup", () => {
-        isDown = false;
-        slider.classList.remove("active");
-      });
-      slider.addEventListener("mousemove", (e) => {
-        if (!isDown) return; //stop the function from running
+      }
+
+      function move(e) {
+        if(!isDown) return;
         e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        //console.log({ x, startX });
+        const x = (e.pageX || e.touches[0].pageX) - slider.offsetLeft;
         const walk = (x - startX) * 3;
         slider.scrollLeft = scrollLeft - walk;
-        //console.log(walk);
-        //console.count(isDown);
-        //console.log(startX);
-        //console.log("Do Work");
-      });
+      }
+
+      function end() {
+        isDown = false;
+        slider.classList.remove('active');
+      }
+
+      slider.addEventListener('mousedown', start);
+      slider.addEventListener('touchstart', start);
+
+      slider.addEventListener('mousemove', move);
+      slider.addEventListener('touchmove', move);
+
+      slider.addEventListener('mouseup', end);
+      slider.addEventListener('mouseleave', end);
+			slider.addEventListener('touchend', end);
     </script>
   </body>
 </html>
